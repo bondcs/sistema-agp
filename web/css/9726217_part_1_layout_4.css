@@ -1,0 +1,543 @@
+/* 
+    Document   : layout
+    Created on : 29/11/2012, 22:23:13
+    Author     : bondcs
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+body{
+    /*padding-top: 60px;*/
+    color: #666666;
+    font-family: Arial,Helvetica,sans-serif;
+/*    background: url("../../bundles/img/bgmain.png") repeat scroll 0 0 #FFFFFF;*/
+}
+
+a{
+    color: #666666;
+}
+
+#header {
+    background-color: #A19B9E; background:-moz-linear-gradient(right, #99FF99 0%, #FFFFFF 100%);
+    padding: 10px;
+    padding-left: 20px;
+}
+
+#header img{
+    height: 80px;
+}
+
+.menu-top .navbar-inner{
+    border-radius: 0px !important;
+}
+
+.container-fluid{
+    padding: 0px!important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;;
+}
+
+.bread {
+    background: url("../../bundles/agpfront/imagestitlebg.png") repeat-x scroll left top #868686 !important;
+    box-shadow: 1px 1px 2px #EEEEEE;
+    border: 1px solid #DDDDDD;
+    border-radius: 0px;
+}
+
+.sidebar{
+    /*background-image: linear-gradient(to bottom, #FFFFFF, #F2F2F2);*/
+    background-repeat: repeat-x;
+    border-radius: 2px;
+    margin-bottom: 10px;
+}
+
+#side-menu .active > a{
+    background-image: linear-gradient(to bottom, #FAFAFA, #EFEFEF);
+}
+
+#side-menu .active > a{
+    color: #666666 !important;
+}
+
+#side-menu .active i{
+    opacity: 1;
+}
+
+#side-menu .nav-list > .active > a:hover{
+   background-color: #EFEFEF
+}
+
+#side-menu{
+    padding: 0px !important;
+    border: none !important;
+    min-width: 150px;
+    
+}
+
+#side-menu li{
+    background-color: #FAFAFA;
+    background-image: linear-gradient(to bottom, #FAFAFA, #EFEFEF);
+    margin: 2px;
+    border:1px solid #DDDDDD;
+}
+
+#side-menu li:first-child{
+    margin-top: 0px;
+}
+
+#side-menu li a{
+    padding: 10px 8px;
+    margin: 0px !important;
+}
+
+#side-menu i{
+    opacity: 0.35;
+    margin-right: 0px !important;
+
+}
+
+#side-menu .icon-chevron-down, #side-menu .icon-chevron-up{
+    float: right;
+    width: 20px;
+    height: 20px;
+    margin-right: 0px !important;
+}
+
+.sub-nav{
+    padding:0px !important;
+    display: none;
+    background-color: #F9F9F9;
+}
+
+.sub-nav a {
+    margin: 0px !important;
+    padding-left: 25px !important;
+}
+
+.sub-nav li {
+    background-color: #F9F9F9 !important;
+}
+
+.wrapper-content{
+    margin-bottom: 10px;
+}
+
+@font-face { font-family: BebasNeue; src: url('../../bundles/img/BebasNeue.otf'); } 
+
+.sub-menu{
+    background: url("../../bundles/img/bgmain.png") repeat scroll 0 0 #FFFFFF;
+    font-family: 'BebasNeue', Arial,Helvetica,sans-serif;
+    font-size: 20px;
+}
+
+.sub-menu ul{
+    margin-bottom: 0px !important;
+    border: none !important;
+}
+
+.sub-menu ul li.active a{
+    color:#666666 !important;
+}
+
+.sub-menu ul li a{
+    /*background: url("../../bundles/img/titlebg.png") repeat-x scroll left top #EEEEEE;*/
+    border: 1px solid #DDDDDD;
+    outline: medium none;
+    color:#DDDDDD !important;
+}
+
+.header-grid{
+    margin-bottom: 20px;
+    border: 1px solid #DDDDDD;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: url("../../bundles/agpfront/images/titlebg.png") repeat-x scroll left top #EEEEEE !important    ;
+}
+
+.header-table{
+    background: url("../../bundles/img/headbg.png") repeat-x scroll left top #333333;
+    margin: 0 !important;
+    border: 1px solid #DDDDDD;
+}
+
+.header-grid span{
+}
+
+.break{
+    border-left: 1px solid #FCFCFC;
+    border-right: 1px solid #DDDDDD;
+    margin: -12px 10px -10px;
+    padding: 12px 0 10px;
+}
+
+.header-grid i, .header-table i{
+    opacity: 0.25;
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
+.header-grid i:hover{
+    cursor: pointer;
+    opacity: 1;
+}
+
+.sidebar .wrapper-widget{
+    margin-bottom: 10px;
+}
+
+.margin-header{
+    margin-bottom: 0px;
+}
+
+.margin-header .row-fluid{
+    margin-bottom: 10px;
+}
+
+.margin-header .in{
+    border:none !important;
+}
+
+.wrapper-widget .header-grid{
+    margin: 0 !important;
+    
+}
+
+.wrapper-widget > .in{
+    border: 1px solid #DDDDDD;
+    border-top: none;
+}
+.content-widget{
+    background-color: #FFFFFF;
+    
+}
+
+.content-widget form {
+    margin: 10px;
+}
+
+.control-erro ul{
+    list-style: none;
+    margin: 0px 0px 0px 180px;
+    color: #FF6347;
+}
+
+.flash-success{
+    background-color: #C1FFC1 !important;
+    border: 1px solid #90EE90 !important;
+    color: green !important;
+}
+
+.flash-error{
+    background-color: #FFDAB9 !important;
+    border: 1px solid #FF6347 !important;
+    color: red !important;
+}
+
+button i, a i{
+    margin-right: 7px;
+}
+
+@media (max-width: 480px) {
+  .form-horizontal .control-erro ul {
+    margin-left: 0 !important;
+  }
+}
+
+/* form filter */
+.filter{
+    margin: 0 0 10px !important;
+}
+
+.filter select {
+    width: auto !important;
+}
+
+.content{
+    border: 1px solid #DDDDDD;
+    border-radius: 0 2px 2px 2px;
+    box-shadow: 1px 1px 2px #EEEEEE;
+    background-color: #FFFFFF;
+    padding: 10px;
+}
+
+.widgetlist {
+    list-style: none outside none;
+    margin: 0px !important;
+}
+.widgetlist li {
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 15px;
+}
+.widgetlist li a {
+    background-color: #BBBBBB;
+    background-position: center 20px;
+    background-repeat: no-repeat;
+    border-radius: 2px 2px 2px 2px;
+    color: #EEEEEE;
+    display: inline-block;
+    font-weight: bold;
+    padding: 80px 34px 20px;
+    text-align: center;
+    width: 80px;
+    height: 30px;
+}
+.widgetlist li a:hover {
+    text-decoration: none;
+}
+.widgetlist li a.default {
+    background-color: #BBBBBB;
+}
+.widgetlist li a:hover {
+    background-color: #666666;
+}
+.widgetlist li a.dashboard {
+    background-image: url("../../bundles/img/info.png");
+}
+.widgetlist li a.message {
+    background-image: url("../../bundles/agpfront/images/icons/default/message.png");
+}
+.widgetlist li a.upload {
+    background-image: url("../../bundles/agpfront/images/icons/default/image.png");
+}
+
+.stdtable {
+    width: 100% !important;
+}
+
+.stdtable .con0 {
+    background: none repeat scroll 0 0 #FCFCFC;
+}
+.stdtable .con1 {
+    background: none repeat scroll 0 0 #F9F9F9;
+}
+.stdtable th, .stdtable td {
+    line-height: 16px;
+    vertical-align: middle;
+}
+.stdtable thead th, .stdtable thead td {
+    border-bottom: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    padding: 5px 10px;
+}
+.stdtable tfoot th, .stdtable tfoot td {
+    border-bottom: 1px solid #CCCCCC;
+    border-right: 1px solid #CCCCCC;
+    padding: 5px 10px;
+}
+.stdtable thead th:first-child, .stdtable tfoot th:first-child, .stdtable thead td:first-child, .stdtable tfoot td:first-child {
+    border-left: 1px solid #DDDDDD;
+}
+.stdtable thead th.head0, .stdtable tfoot th.head0, .stdtable thead td.head0, .stdtable tfoot td.head0 {
+    background-color: #EEEEEE;
+}
+.stdtable thead th.head1, .stdtable tfoot th.head1, .stdtable thead td.head1, .stdtable tfoot td.head1 {
+    background-color: #DDDDDD;
+}
+.stdtable thead th.sorting, .stdtable thead td.sorting {
+    background-image: url("../../bundles/agpfront/images/sort_both.png");
+    background-position: right 3px;
+    background-repeat: no-repeat;
+}
+.stdtable thead th.sorting_asc, .stdtable thead td.sorting_asc {
+    background-image: url("../../bundles/agpfront/images/sort_asc.png");
+    background-position: right 4px;
+    background-repeat: no-repeat;
+}
+.stdtable thead th.sorting_desc, .stdtable thead td.sorting_desc {
+    background-image: url("../../bundles/agpfront/images/sort_desc.png");
+    background-position: right 4px;
+    background-repeat: no-repeat;
+}
+.stdtable thead td {
+    font-weight: bold;
+}
+.stdtable thead td.center {
+    text-align: center;
+}
+.stdtable tbody tr td {
+    border-bottom: 1px solid #EEEEEE;
+    border-right: 1px solid #EEEEEE;
+    padding: 8px 10px;
+}
+.stdtable tbody tr:last-child td {
+    border-bottom: 1px solid #CCCCCC;
+}
+.stdtable tbody tr td:first-child {
+    border-left: 1px solid #DDDDDD;
+}
+.stdtable tbody tr td:last-child {
+    border-right: 1px solid #DDDDDD;
+}
+.stdtable tbody tr:hover td, .stdtable tbody tr.selected td {
+    background: none repeat scroll 0 0 #EEEEEE;
+    color: #333333;
+}
+.stdtable tbody tr.togglerow td {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+.stdtable tbody tr.togglerow:hover td {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+.stdtable tbody tr.hiderow {
+    display: none;
+}
+.tableoptions {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: url("../../bundles/agpfront/images/titlebg.png") repeat-x scroll left top #EEEEEE;
+    border-color: -moz-use-text-color #CCCCCC #CCCCCC;
+    border-image: none;
+    border-top: 1px solid #CCCCCC !important;
+    border-style: none solid solid;
+    border-width: 0 1px 1px;
+    padding: 8px;
+}
+.tableoptions button {
+    background: url("../../bundles/agpfront/images/titlebg.png") repeat-x scroll left top #FCFCFC;
+    border: 1px solid #BBBBBB;
+    box-shadow: 1px 1px 2px #DDDDDD;
+    color: #666666;
+    font-size: 11px;
+    margin: 0;
+    outline: medium none;
+    padding: 7px 10px;
+}
+.tableoptions button:hover {
+    background: none repeat scroll 0 0 #EEEEEE;
+    cursor: pointer;
+}
+.tableoptions select {
+    background: url("../../bundles/agpfront/images/titlebg.png") repeat-x scroll left top #FCFCFC;
+    border: 1px solid #BBBBBB;
+    box-shadow: 1px 1px 2px #DDDDDD;
+    color: #666666;
+    font-size: 11px;
+    margin: 0;
+    outline: medium none;
+    padding: 6px 5px 7px;
+}
+.dataTables_wrapper {
+    position: relative;
+    border-top: 1px solid #CCCCCC;
+}
+.dataTables_length, .dataTables_paginate {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: url("../../bundles/agpfront/images/titlebg.png") repeat-x scroll left top #EEEEEE;
+/*    background-color: #EEEEEE;*/
+    border-color: -moz-use-text-color #CCCCCC #CCCCCC;
+    border-image: none;
+    border-right: 1px solid #CCCCCC;
+    border-style: none solid solid;
+    border-width: 0 1px 1px;
+    padding: 8px;
+}
+.dataTables_wrapper select {
+    background: url("../../bundles/agpfront/images/titlebg.png") repeat-x scroll left top #FCFCFC;
+    border: 1px solid #BBBBBB;
+    box-shadow: 1px 1px 2px #DDDDDD;
+    color: #666666;
+    font-size: 11px;
+    margin: 0;
+    outline: medium none;
+    padding: 5px;
+    width: auto !important;
+    border-radius: 0 !important;
+}
+
+.dataTables_wrapper input {
+    border: 1px solid #CCCCCC;
+    padding: 4.5px !important;
+    width: 200px;
+    border-radius: 0 !important;
+}
+.dataTables_filter {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+}
+
+.dataTables_filter input{
+    width: 120px !important;
+}
+
+.dataTables_info {
+    bottom: 7px;
+    left: 8px;
+    position: absolute;
+}
+
+.action{
+    font-size: 11.5px !important;
+    padding: 1px 4px !important;
+    margin-right: 4px;
+    outline: none;
+}
+
+.action i{
+    height: 13px !important;
+    margin-top: 0px !important;
+    margin-right: 4px !important;
+}
+
+.center{
+    text-align: center;
+}
+
+.dataTables_empty{
+    text-align: center;
+}
+.dataTables_paginate {
+    line-height: 16px;
+    text-align: right;
+}
+.dataTables_paginate span {
+    display: inline-block;
+}
+.dataTables_paginate .paginate_button {
+    background: none repeat scroll 0 0 #FCFCFC;
+    border: 1px solid #CCCCCC;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 1px 1px 2px #DDDDDD;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 5px;
+    padding: 5px 7px;
+}
+.dataTables_paginate .paginate_active {
+    background: none repeat scroll 0 0 #333333;
+    border: 1px solid #222222;
+    border-radius: 2px 2px 2px 2px;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 5px;
+    padding: 5px 7px;
+}
+.dataTables_paginate .paginate_button:hover {
+    background: none repeat scroll 0 0 #DDDDDD;
+    border: 1px solid #CCCCCC;
+    color: #333333;
+    cursor: pointer;
+}
+
+/* Específicos */
+
+.hide{
+    display: none;
+}
+
+/* Login */
+
+.wrapper-login {
+
+}
