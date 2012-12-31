@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Venda" table="venda">
+    <id name="codVenda" type="integer" column="cod_venda">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="codEmpresa" type="integer" column="cod_empresa" nullable="false"/>
+    <field name="codTerminal" type="integer" column="cod_terminal" nullable="false"/>
+    <field name="codProduto" type="integer" column="cod_produto" nullable="false"/>
+    <field name="codListaPreco" type="integer" column="cod_lista_preco" nullable="false"/>
+    <field name="codEvento" type="integer" column="cod_evento" nullable="false"/>
+    <field name="codAtendente" type="integer" column="cod_atendente" nullable="false"/>
+    <field name="vlrProduto" type="float" column="vlr_produto" nullable="false"/>
+    <field name="qtde" type="float" column="qtde" nullable="false"/>
+    <field name="subtotal" type="float" column="subtotal" nullable="false"/>
+    <field name="dtVenda" type="datetime" column="dt_venda" nullable="false"/>
+    <field name="situacao" type="string" column="situacao" nullable="true"/>
+  </entity>
+</doctrine-mapping>

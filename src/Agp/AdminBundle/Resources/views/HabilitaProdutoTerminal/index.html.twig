@@ -1,0 +1,158 @@
+{% extends "AgpAdminBundle:Terminal:showByUser.html.twig" %}
+
+{% block contentProfile %}
+<fieldset>
+    <legend>Produtos</legend>
+    <form id="habilita-form" action="#" method="POST" class="form-inline">
+        {{form_errors(form)}}
+        {{form_widget(form.lista)}}
+        <input type="hidden" name="terminalEmpresa" value="{{entity.codTerminalEmpresa}}" >  
+        {{ form_row(form._token) }}     
+        <button id="button-habilita" type="button" class="btn"><i class="icon-ok"></i>Habilitar</button>
+    </form>
+    <hr>
+    <form id="formTable" action="" method="POST">
+    <table class="toolstable table table-striped" style="min-width: 430px;">
+       <colgroup>
+           <col class="con1" />
+           <col class="con0" />
+           <col class="con1" />
+           <col class="con0" />
+           <col class="con1" />
+           <col class="con0" />
+       </colgroup>
+       <thead>
+           <tr>
+               <th class="head1"></th>
+               <th class="head0">Situação</th>
+               <th class="head1">Produto</th>
+               <th class="head1">Valor</th>
+               <th class="head0">Limite de Venda</th>
+               <th class="head1">Quantidade Atual</th>
+               <th class="head0 center" style="width: 300px;">Ações</th>
+           </tr>
+       </thead>
+       <tbody>
+       </tbody>
+    </table>
+   </form>
+</fieldset>
+{% endblock %}
+{% block javascript_diff %}
+<script type="text/javascript">
+$(document).ready(function()
+{   
+    dtNewProps = {
+              "bSort": false,
+              "bDeferRender": true,
+              "sServerMethod": "POST",
+              "sAjaxSource": Routing.generate("habilitaProdutoTerminalAjax", {"terminalEmpresa" : {{entity.codTerminalEmpresa}}}),
+              "aoColumns": [
+                { "mDataProp": "codHabilitaProdutoTerminal",
+                    "sClass" : "center"},
+                { "mDataProp": "situacao",
+                    "sClass" : "check center pointer"},
+                { "mDataProp": "produtoListaPreco.produto.nome"},
+                { "mDataProp": "produtoListaPreco.vlrProduto" },
+                { "mDataProp": "produtoListaPreco.limiteVendas",
+                    "sClass" : "center"},
+                { "mDataProp": "produtoListaPreco.produto.qtdeAtual",
+                    "sClass" : "center"},
+                { "mDataProp": "codHabilitaProdutoTerminal",
+                    "sClass" : "center"}, 
+              ],
+              "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
+                               {"bSortable": false, "aTargets": [1]},
+                               {"bSortable": false, "aTargets": [6]}],
+              "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
+                 $('td:eq(0)', nRow).html('<input class="check-table" type="checkbox" name="registros[]" value="'+aData['codHabilitaProdutoTerminal']+'">'); 
+                 $('td:eq(3)', nRow).html(formataDinheiroTabela(aData["produtoListaPreco"]['vlrProduto']+""));
+                 $('td:eq(4)', nRow).html(formataQtdTabela(aData["produtoListaPreco"]['limiteVendas']+""));
+                 $('td:eq(5)', nRow).html(formataQtdTabela(aData["produtoListaPreco"]['produto']['qtdeAtual']+""));
+                 $('td:eq(6)', nRow).html(
+                    "<a class='btn action action-confirm' data-href='"+Routing.generate("habilitaProdutoTerminalDelete", {"id" : aData['codHabilitaProdutoTerminal']})+"' data-texto='Deletar vínculo: "+aData['produtoListaPreco']['produto']['nome']+"' title='Deletar Vínculo' ><i class='icon-trash'></i>Deletar</a>"
+                 );
+                     
+                 if (aData['situacao'] == "Ativo"){
+                    $('td:eq(1)', nRow).html('<img src='+path+'/agpfront/images/check2.png>');
+                 }else{
+                    $('td:eq(1)', nRow).html('<img src='+path+'/agpfront/images/uncheck2.png>');
+                 }
+              },
+             
+     }
+        
+    dtToolsProps = {
+         "aButtons": [
+            "copy",
+            "print",
+            "pdf",
+           /* {
+                "sExtends": "text",
+                "sButtonText": 'Adicionar',
+                "fnClick" : function(){
+                    ajaxLoadDialog(Routing.generate("terminalEmpresaAdd",{"terminalId" : {{entity.codTerminalEmpresa}}}) , "Vincular empresa ao terminal")
+                },
+            },*/
+            {
+                "sExtends": "text",
+                "sButtonText": "Ativar / Desativar",
+                "sButtonClass": "hidden check-button",
+                "fnClick" : function(){
+                    formSubmitTableGroup($("#formTable"), Routing.generate("habilitaProdutoTerminalChangeSituacaoGroup"))            
+                }
+            },
+            {
+                "sExtends": "text",
+                "sButtonText": "Deletar",
+                "sButtonClass": "hidden check-button",
+                "fnClick" : function(){
+                    formConfirmGroupDelete($("#formTable"), Routing.generate("habilitaProdutoTerminalGroupDelete"))            
+                }
+            },
+         ]
+    };
+
+    initDataTableTools(tTable, dtNewProps, dtToolsProps);
+});
+
+$(function() {
+        $("#button-habilita").click(function(e){
+            e.preventDefault();
+                $.ajax({
+                    timeout: 5000,
+                    type: 'POST',
+                    url: Routing.generate("geraProdutoVinculado", {"lista" : $(".lista").val() ? $(".lista").val() : 0 ,"terminalEmpresa" : {{entity.codTerminalEmpresa}}}),
+                    data: $(this).serialize(),
+                    success: function(result){
+                        if (result['status'] == "sucesso"){
+                            tTable.dataTable().fnReloadAjax();
+                            notify("regular", "Sucesso", "Acão foi efetuada!")
+                            return false;
+                        }
+                        onReady();
+                    }
+                })
+                
+            return false;
+        })
+  })
+
+$(document).on('click', '.table tbody td.check', function(e){
+        var data = tTable.fnGetData(this.parentNode);
+        url = Routing.generate("habilitaProdutoTerminalChangeSituacao", {"id" : data['codHabilitaProdutoTerminal']})
+        $.ajax({
+            type: 'POST',
+            url: url,
+            success: function(result){
+                tTable.dataTable().fnReloadAjax();
+                if (result['status'] == 'sucesso'){
+                   notify("regular", "Sucesso", "Acão foi efetuada!")
+                }
+                return false;
+            }
+        })
+})
+  
+</script>
+{% endblock %}

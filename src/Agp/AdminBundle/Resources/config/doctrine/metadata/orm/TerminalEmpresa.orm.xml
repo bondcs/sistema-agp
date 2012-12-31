@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="TerminalEmpresa" table="terminal_empresa">
+    <id name="codTerminal" type="integer" column="cod_terminal"/>
+    <id name="codEmpresa" type="integer" column="cod_empresa"/>
+    <field name="situacao" type="string" column="situacao" nullable="false"/>
+    <field name="liberacao" type="string" column="liberacao" length="45" nullable="true"/>
+    <field name="bloquear" type="string" column="bloquear" nullable="true"/>
+    <field name="dtLiberacao" type="datetime" column="dt_liberacao" nullable="true"/>
+  </entity>
+</doctrine-mapping>

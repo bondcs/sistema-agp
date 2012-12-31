@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="agp.empresaTerminal.form.type" class="Agp\AdminBundle\Form\Type\EmpresaTerminalType">
+            <tag name="form.type" alias="agp_adminbundle_empresaTerminaltype" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="agp.terminalEmpresa.manager" class="Agp\AdminBundle\Manager\TerminalEmpresaManager" public="true">
+            <argument type="service" id="service_container"></argument>
+            <argument>Agp\AdminBundle\Entity\TerminalEmpresa</argument>
+        </service>
+
+        <service id="agp.empresaTerminal.form.handler" class="Agp\AdminBundle\Form\Handler\EmpresaTerminalHandler" scope="request" public="true">
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="service_container" />  
+        </service>
+    </services>
+
+</container>

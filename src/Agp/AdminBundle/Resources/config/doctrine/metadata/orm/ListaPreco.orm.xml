@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="ListaPreco" table="lista_preco">
+    <id name="codEmpresa" type="integer" column="cod_empresa"/>
+    <id name="codListaPreco" type="integer" column="cod_lista_preco"/>
+    <field name="codEvento" type="integer" column="cod_evento" nullable="true"/>
+    <field name="nome" type="string" column="nome" length="42" nullable="false"/>
+  </entity>
+</doctrine-mapping>

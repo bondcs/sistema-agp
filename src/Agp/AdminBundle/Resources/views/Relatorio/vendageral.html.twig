@@ -1,0 +1,170 @@
+{% extends "AgpAdminBundle:Relatorio:base-relatorio.html.twig" %}
+
+{% block content %}
+<div class="wrapper-widget" style="min-width: 520px;">
+        <div class="row-fluid">
+            <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Relatório de Vendas<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+        </div>
+        <div id="widgetDefault" class="content-widget collapse in">
+            <form class="form-inline filter">
+             <div class="row-fluid">
+                <div class="span6">
+                {{form_label(formFilter.terminal)}}
+                {{form_widget(formFilter.terminal)}}
+                
+                {{form_label(formFilter.fechamento)}}
+                {{form_widget(formFilter.fechamento)}}
+                </div>  
+                <div class="span6" style="margin-top: 5px;">
+                <label class="radio inline">
+                    <input class="nao-radio" type="radio" id="inlineCheckbox1" name="grupo" checked="checked" value="n"> Não Agrupado
+                </label>
+                <label class="radio inline">
+                    <input class="terminal-radio" type="radio" id="inlineCheckbox2" name="grupo" value="t"> Terminal
+                </label>
+                <label class="radio inline">
+                    <input class="grupo-radio" type="radio" id="inlineCheckbox3" name="grupo" value="p"> Produto
+                </label>
+                <input id="atualizar" type="button" value="Atualizar" class="btn pull-right">
+                </div>
+               </div>
+            </form>
+            <hr>
+            <table class="simpletable table table-striped">
+                <colgroup>
+                    <col class="con0" />
+                    <col class="con1" />
+                    <col class="con0" />
+                    <col class="con1" />
+                    <col class="con0" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="head0">Terminal</th>
+                        <th class="head1">Fechamento</th>
+                        <th class="head0">Produto</th>
+                        <th class="head1">Quantidade</th>
+                        <th class="head0">Valor</th>
+                    </tr>
+                    <tr class="tr-info">
+                        <th colspan="3" style="text-align: right"></th>
+                        <th colspan="1" style="text-align: left;"></th>
+                        <th colspan="1" style="text-align: left;"></th>
+                    </tr> 
+                </thead>
+                <tbody>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="3" style="text-align: right"></th>
+                        <th colspan="1" style="text-align: left;"></th>
+                        <th colspan="1" style="text-align: left;"></th>
+                    </tr>  
+                </tfoot>
+            </table>
+        </div>
+   </div>
+
+{% endblock %}
+
+{% block javascript_diff %}
+<script type="text/javascript">
+    
+    function getRota(){
+        return Routing.generate("relatorioVendaGeralAjax",
+                              {'terminal' : $(".terminal").val() ? $(".terminal").val() : 0,
+                               'fechamento' : $(".fechamento").val() ? $(".fechamento").val() : 0,
+                               'grupo' : $("input:radio:checked").val()});
+    }
+    
+    function setHeaderTotal(aaData, nRow){
+        var qtdTotal = 0;
+        var vlrTotal = 0;
+        for (var i=0; i < aaData.length; i++){
+            qtdTotal += aaData[i]["qtdeTotal"]*1;
+            vlrTotal += aaData[i]["vlrTotal"]*1;
+        }
+
+        var nCells = $(".tr-info th");
+        nCells[1].innerHTML = formataQtdTabela(qtdTotal+""); 
+        nCells[2].innerHTML = formataDinheiroTabela(vlrTotal+""); 
+    }
+    
+    function setFooterTotal(aaData, nRow){
+        
+        var qtdTotal = 0;
+        var vlrTotal = 0;
+        for (var i=0; i < aaData.length; i++){
+            qtdTotal += aaData[i]["qtdeTotal"]*1;
+            vlrTotal += aaData[i]["vlrTotal"]*1;
+        }
+        var nCells = nRow.getElementsByTagName('th');
+        nCells[1].innerHTML = formataQtdTabela(qtdTotal+"");
+        nCells[2].innerHTML = formataDinheiroTabela(vlrTotal+"") 
+    }
+
+    $(document).ready(function()
+    {   
+        
+        $(".filter select, .filter .radio").change(function(){
+            oTable.fnNewAjax(getRota());            
+            oTable.dataTable().fnReloadAjax();
+        });   
+        
+        $("#atualizar").click(function(e){
+            e.preventDefault()
+            oTable.fnNewAjax(getRota());            
+            oTable.dataTable().fnReloadAjax();
+        })
+        
+        dtNewProps = {
+              "sServerMethod": "POST",
+              "sAjaxSource": getRota(),
+              "aoColumns": [
+                { "mDataProp": "codTerminal" },
+                { "mDataProp": "numFechamento" },
+                { "mDataProp": "nomeProduto"},
+                { "mDataProp": "qtdeTotal",
+                  "sClass" : "qtd"},
+                { "mDataProp": "vlrTotal",
+                  "sClass" : "valor"},  
+              ],
+              "aoColumnDefs": [{"bSortable": false, "aTargets": [3]},
+                               {"bSortable": false, "aTargets": [4]}],
+              "fnHeaderCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+                setHeaderTotal(aaData,nRow)
+              },
+              "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+                setFooterTotal(aaData,nRow)
+              },
+              "fnRowCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+                  $(nRow).children(".valor").html(formataDinheiroTabela(aaData['vlrTotal']+""));
+                  $(nRow).children(".qtd").html(formataQtdTabela(aaData['qtdeTotal']+""));
+              },
+              "fnDrawCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                if ($(".terminal-radio").is(":checked")){
+                  oTable.fnSetColumnVis( 0, true );
+                  oTable.fnSetColumnVis( 1, false );
+                  oTable.fnSetColumnVis( 2, false );
+                }
+                
+                if ($(".grupo-radio").is(":checked")){ 
+                  oTable.fnSetColumnVis( 2, true );
+                  oTable.fnSetColumnVis( 0, false );
+                  oTable.fnSetColumnVis( 1, false );
+                }
+                
+                if ($(".nao-radio").is(":checked")){ 
+                  oTable.fnSetColumnVis( 0, true );
+                  oTable.fnSetColumnVis( 1, true );
+                  oTable.fnSetColumnVis( 2, true );
+                }
+               
+              },
+
+        }
+        
+        initDataTable(oTable, dtNewProps);
+    });
+</script>
+{% endblock %}

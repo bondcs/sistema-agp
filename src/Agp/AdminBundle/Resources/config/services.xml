@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <!--
+    <parameters>
+        <parameter key="agp_admin.example.class">Agp\AdminBundle\Example</parameter>
+    </parameters>
+
+    <services>
+        <service id="agp_admin.example" class="%agp_admin.example.class%">
+            <argument type="service" id="service_id" />
+            <argument>plain_value</argument>
+            <argument>%parameter_name%</argument>
+        </service>
+    </services>
+    -->
+    
+    <services>
+        <service id="request.listerner" class="Agp\AdminBundle\Listerner\RequestListerner">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="router" />
+            <tag name="kernel.event_listener" event="kernel.exception" method="onCoreException" priority="1000" />
+        </service>
+    </services>
+</container>

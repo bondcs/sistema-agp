@@ -1,0 +1,74 @@
+{% extends "AgpAdminBundle:Empresa:show.html.twig" %}
+
+{% block contentProfile %}
+<fieldset>
+    <legend>Usuários</legend>
+        <table class="toolstable table table-striped" style="min-width: 430px;">
+           <colgroup>
+               <col class="con1" />
+               <col class="con0" />
+               <col class="con1" />
+               <col class="con0" />
+               <col class="con1" />
+           </colgroup>
+           <thead>
+               <tr>
+                   <th class="head0">Nome</th>
+                   <th class="head1">Cpf</th>
+                   <th class="head1">Data de Nascimento</th>
+                   <th class="head0">Email</th>
+                   <th class="head0 center" style="width: 300px;">Ações</th>
+               </tr>
+           </thead>
+           <tbody>
+           </tbody>
+       </table>
+</fieldset>
+{% endblock %}
+{% block javascript_diff %}
+<script type="text/javascript">
+$(document).ready(function()
+{   
+    dtNewProps = {
+              "bDeferRender": true,
+              "sServerMethod": "POST",
+              "sAjaxSource": Routing.generate("pessoaAjax", {"id" : {{entity.codEmpresa}}}),
+              "aoColumns": [
+                { "mDataProp": "nome"},
+                { "mDataProp": "cpf"},
+                { "mDataProp": "dtNascimento" },
+                { "mDataProp": "email" },
+                { "mDataProp": "codPessoa",
+                    "sClass" : "center"}, 
+              ],
+              "aoColumnDefs": [{"bSortable": false, "aTargets": [4]}],
+              "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
+                 $('td:eq(2)', nRow).html(formataDate(aData["dtNascimento"]['date']));
+                 $('td:eq(4)', nRow).html(
+                    "<a class='btn action action-edit' href="+Routing.generate("pessoaEdit", {"id" : aData['codPessoa']})+" title='Editar usuário'><i class='icon-file'></i>Editar</a>"+
+                    "<a class='btn action action-confirm' data-href='"+Routing.generate("pessoaDelete", {"id" : aData['codPessoa']})+"' data-texto='Deletar usuário: "+aData['nome']+"' title='Deletar Usuário' ><i class='icon-trash'></i>Deletar</a>"
+                 ); 
+              },
+             
+     }
+        
+    dtToolsProps = {
+         "aButtons": [
+            "copy",
+            "print",
+            "pdf",
+            {
+                "sExtends": "text",
+                "sButtonText": 'Adicionar',
+                "fnClick" : function(){
+                    ajaxLoadDialog(Routing.generate("pessoaAdd",{"empresaId" : {{entity.codEmpresa}}}) , "Adicionar usuário")
+                },
+            },
+         ]
+    };
+
+    initDataTableTools(tTable, dtNewProps, dtToolsProps);
+});
+
+</script>
+{% endblock %}

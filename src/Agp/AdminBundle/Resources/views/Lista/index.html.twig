@@ -1,0 +1,91 @@
+{% extends "AgpAdminBundle:Lista:base-lista.html.twig" %}
+
+    
+{% block content %}
+<div class="wrapper-widget" style="min-width: 450px;">
+    <div class="row-fluid">
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Preços<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+    </div>
+    <div id="widgetDefault" class="content-widget collapse in">
+         <form id="formTable" action="" method="POST">
+             <table class="toolstable table table-striped" style="min-width: 430px;">
+                <colgroup>
+                    <col class="con0" />
+                    <col class="con1" />
+                    <col class="con0" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="head0" style="width: 50px;"></th>
+                        <th class="head0">Nome</th>
+                        <th class="head0" style="width: 300px;">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+         </form>
+     </fieldset>
+</div>
+</div>
+    {% endblock %}
+
+
+{% block javascript_diff %}
+<script type="text/javascript">
+$(document).ready(function()
+{   
+    dtNewProps = {
+              "bDeferRender": true,
+              "sServerMethod": "POST",
+              "sAjaxSource": Routing.generate("listaAjax"),
+              "aoColumns": [
+                { "mDataProp": "codListaPreco",
+                    "sClass" : "center"},
+                { "mDataProp": "nome" },
+                { "mDataProp": "codListaPreco",
+                    "sClass" : "center"}, 
+              ],
+              "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
+                               {"bSortable": false, "aTargets": [2]}],
+              "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
+                 $('td:eq(0)', nRow).html('<input class="check-table" type="checkbox" name="listas[]" value="'+aData['codListaPreco']+'">'); 
+                 $('td:eq(1)', nRow).html('<a class="link" href="'+Routing.generate("produtoListaIndex", {"id" : aData['codListaPreco']})+'">'+aData['nome']+'</a>');
+                 $('td:eq(2)', nRow).html(
+                    "<a class='btn action action-edit' href="+Routing.generate("listaEdit", {"id" : aData['codListaPreco']})+" title='Editar Lista'><i class='icon-file'></i>Editar</a>"+
+                    "<a class='btn action' href="+Routing.generate("produtoListaIndex", {"id" : aData['codListaPreco']})+" title='Gerenciar Lista'><i class='icon-briefcase'></i>Gerenciar</a>"+
+                    "<a class='btn action action-confirm' data-href='"+Routing.generate("listaDelete", {"id" : aData['codListaPreco']})+"' data-texto='Deletar esta lista: "+aData['nome']+"' title='Deletar Lista' ><i class='icon-trash'></i>Deletar</a>"
+                 );
+              },
+             
+     }
+        
+    dtToolsProps = {
+         "aButtons": [
+            "copy",
+            "print",
+            "pdf",
+            {
+                "sExtends": "text",
+                "sButtonText": 'Adicionar',
+                "fnClick" : function(){
+                    ajaxLoadDialog(Routing.generate("listaAdd") , "Adicionar Lista")
+                },
+            },
+            {
+                "sExtends": "text",
+                "sButtonText": "Deletar",
+                "sButtonClass": "hidden check-button",
+                "fnClick" : function(){
+                    formConfirmGroupDelete($("#formTable"), Routing.generate("listaGroupDelete"))            
+                }
+            },
+         ]
+    };
+
+    initDataTableTools(tTable, dtNewProps, dtToolsProps);
+ 
+});
+  
+</script>
+{% endblock %}

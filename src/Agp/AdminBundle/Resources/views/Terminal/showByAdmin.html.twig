@@ -1,0 +1,110 @@
+{% extends "AgpAdminBundle:Terminal:base-terminal.html.twig" %}
+
+{% block menuside %}{% endblock %}
+{% block width_content %}span12{% endblock %}
+
+{% block title %} Terminal: {{entity.noSerie}} {% endblock %}
+    
+{% block content %}
+<div>
+    {% block breadcrumb %}
+            <ul class="breadcrumb">
+               <li><a href="{{path("pageIndex")}}">Home</a> <span class="divider">/</span></li>
+               <li><a href="{{path("terminalIndex")}}">Lista de terminais</a></li>
+            </ul>
+    {% endblock %}
+    <div class="wrapper-widget" style="min-width: 520px;">
+        <div class="row-fluid">
+            <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Terminal: {{entity.noSerie}}<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+        </div>
+        <div id="widgetDefault" class="content-widget content-widget-profile collapse in">
+            <div class="row-fluid">
+                <div class="span2 menu-profile">
+                    <ul class="nav nav-list">
+                        <li><a href="{{path("showByAdmin", {"id" : entity.codTerminal})}}">Informações<i class="icon-picture"></i></a></li>
+                        <li><a href="{{path("terminalEmpresaByTerminal", {"id" : entity.codTerminal})}}">Empresa<i class="icon-lock"></i></a></li>
+                        {#<li><a href="#">Vendas<i class="icon-shopping-cart"></i></a></li>#}
+                    </ul>
+                </div>
+                <div class="span10 content-profile">
+                    {% block contentProfile %}
+                  <fieldset>
+                    <legend>Informações</legend>
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active"><a data-target="#div-1">Terminal</a></li>
+                        <li><a data-target="#div-2">Vinculo</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="div-1">
+                           <table class="table table-striped table-info">
+                                <tr>
+                                    <th style="width: 15%">Número de série: </th>
+                                    <td style="width: 35%">{{entity.noSerie}}</td>
+                                    <th style="width: 25%">Fabricante: </th>
+                                    <td style="width: 25%">{{entity.fabricante}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Versão: </th>
+                                    <td>{{entity.versao}}</td>
+                                    <th>Data de Entrada:</th>
+                                    <td>{{entity.dtEntrada|date("d/m/Y")}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Situação: </th>
+                                    <td>{{entity.situacao}}</td>
+                                    <th></th>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="div-2">
+                            <table class="table table-striped table-info">
+                                <tr>
+                                    <th style="width: 15%">Empresa: </th>
+                                    <td style="width: 35%">{% if (entity.terminalVinculoAtivo) %} <a class="link" href="{{path('showEmpresa', {'id' : entity.terminalVinculoAtivo.empresa.codEmpresa})}}">{{entity.terminalVinculoAtivo.empresa.fantasia}}</a>{% endif %}</td>
+                                    <th style="width: 25%">Situação: </th>
+                                    <td style="width: 25%">{{entity.terminalVinculoAtivo.situacao|default("")}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Liberaçao: </th>
+                                    <td>{{entity.terminalVinculoAtivo.liberacao|default("")}}</td>
+                                    <th>Data de Liberação:</th>
+                                    <td>{% if (entity.terminalVinculoAtivo) %} {{ entity.terminalVinculoAtivo.dtLiberacao|date("d/m/Y")}} {% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <th>Bloqueio: </th>
+                                    <td>{{entity.terminalVinculoAtivo.bloquear|default("")}}</td>
+                                    <th>Vínculo: </th>
+                                    <td>{{entity.terminalVinculoAtivo.tipoVinculo|default("")}}</td>
+                                    {% if (entity.terminalVinculoAtivo.tipoVinculo|default("") == constant('Agp\\AdminBundle\\Entity\\TerminalEmpresa::TIPO_TEMPORARIO')) %}
+                                        <tr>
+                                            <th>Data de Início: </th>
+                                            <td>{{entity.terminalVinculoAtivo.dtInicio|date('d/m/Y')}}</td>
+                                            <th>Data de Término: </th>
+                                            <td>{{entity.terminalVinculoAtivo.dtTermino|date('d/m/Y')}}</td>
+                                        </tr>
+                                    {% endif %}
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                   </fieldset>
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+{% endblock %}
+
+{% block javascript_diff %}
+<script type="text/javascript">
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
+  
+</script>
+{% endblock %}
+

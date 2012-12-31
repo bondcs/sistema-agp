@@ -1,0 +1,115 @@
+{% extends "AgpAdminBundle:Terminal:showByAdmin.html.twig" %}
+
+{% block contentProfile %}
+        <table class="toolstable table table-striped" style="min-width: 430px;">
+           <colgroup>
+               <col class="con1" />
+               <col class="con0" />
+               <col class="con1" />
+               <col class="con0" />
+               <col class="con1" />
+               <col class="con0" />
+           </colgroup>
+           <thead>
+               <tr>
+                   <th class="head0">Situação</th>
+                   <th class="head1">Empresa</th>
+                   <th class="head1">Liberação</th>
+                   <th class="head0">Data de Liberação</th>
+                   <th class="head1">Bloqueado</th>
+                   <th class="head0 center" style="width: 300px;">Ações</th>
+               </tr>
+           </thead>
+           <tbody>
+           </tbody>
+       </table>
+
+{% endblock %}
+{% block javascript_diff %}
+<script type="text/javascript">
+$(document).ready(function()
+{   
+    dtNewProps = {
+              "bSort": false,
+              "bDeferRender": true,
+              "sServerMethod": "POST",
+              "sAjaxSource": Routing.generate("terminalEmpresaAjax", {"id" : {{entity.codTerminal}}}),
+              "aoColumns": [
+                { "mDataProp": "situacao",
+                    "sClass" : "check"},
+                { "mDataProp": "empresa.fantasia"},
+                { "mDataProp": "liberacao" },
+                { "mDataProp": "dtLiberacao"},
+                { "mDataProp": "bloquear" },
+                { "mDataProp": "codTerminalEmpresa",
+                    "sClass" : "center"}, 
+              ],
+              "aoColumnDefs": [{"bSortable": false, "aTargets": [5]}],
+              "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
+                 $('td:eq(3)', nRow).html();
+                 $('td:eq(5)', nRow).html(
+                    "<a class='btn action action-edit' href="+Routing.generate("terminalEmpresaEdit", {"id" : aData['codTerminalEmpresa'], "terminalId" : {{entity.codTerminal}}})+" title='Editar vínculo'><i class='icon-file'></i>Editar</a>"+
+                    "<a class='btn action action-confirm' data-href='"+Routing.generate("terminalEmpresaDelete", {"id" : aData['codTerminalEmpresa']})+"' data-texto='Deletar vínculo: "+aData['empresa']['fantasia']+"' title='Deletar Vínculo' ><i class='icon-trash'></i>Deletar</a>"
+                 );
+                     
+                 if (aData['situacao'] == "Ativo"){
+                    $('td:eq(0)', nRow).html('<img src="'+path+"/agpfront/images/check2.png>");
+                 }else{
+                    $('td:eq(0)', nRow).html('<img src="'+path+"/agpfront/images/uncheck2.png");
+                 }
+              },
+             
+     }
+        
+    dtToolsProps = {
+         "aButtons": [
+            "copy",
+            "print",
+            "pdf",
+            {
+                "sExtends": "text",
+                "sButtonText": 'Adicionar',
+                "fnClick" : function(){
+                    ajaxLoadDialog(Routing.generate("terminalEmpresaAdd",{"terminalId" : {{entity.codTerminal}}}) , "Vincular empresa ao terminal")
+                },
+            },
+         ]
+    };
+
+    initDataTableTools(tTable, dtNewProps, dtToolsProps);
+});
+
+$(document).on('change', '.vinculo', function(e)
+{
+    if ($(this).val() == "Permanente"){
+        $(".temporario").hide()
+    }else{
+        $(".temporario").show()
+    }
+    
+})
+
+$(function()
+{
+    if ($(this).val() == "Permanente"){
+        $(".temporario").hide()
+    }else{
+        $(".temporario").show()
+    }
+})
+
+$(document).on('click', '.table tbody td.check', function(e){
+        var data = tTable.fnGetData(this.parentNode);
+        url = Routing.generate("terminalSituacaoCheck", {"id" : data['codTerminalEmpresa']})
+        $.ajax({
+            type: 'POST',
+            url: url,
+            success: function(){
+                tTable.dataTable().fnReloadAjax();
+                return false;
+            }
+        })
+})
+  
+</script>
+{% endblock %}

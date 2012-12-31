@@ -396,7 +396,7 @@ a{
     background:-ms-linear-gradient(right, #99FF99 0%,#FFFFFF 100%); 
     background:linear-gradient(right,  #FFFFFF 0%,#99FF99 100%); 
     filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#99FF99', endColorstr='#FFFFFF',GradientType=1 );
-    padding: 10px 0px 10px 0px;
+    padding: 10px 0px 10px 20px;
 }
 
 .wrapper-content{
@@ -606,7 +606,7 @@ a{
 }
 
 .table-info{
-    border-radius: 0px;
+
 }
 
 
@@ -680,6 +680,10 @@ button i, a i{
 
 .pointer {
     cursor: pointer;
+}
+
+.nav-tabs li{
+    cursor: default;
 }
 
 /* ajax Loading */

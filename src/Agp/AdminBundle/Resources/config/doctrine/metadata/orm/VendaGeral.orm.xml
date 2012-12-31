@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="VendaGeral" table="venda_geral">
+    <id name="codVendaGeral" type="integer" column="cod_venda_geral">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="codTerminal" type="integer" column="cod_terminal" nullable="false"/>
+    <field name="codEmpresa" type="integer" column="cod_empresa" nullable="false"/>
+    <field name="numFechamento" type="integer" column="num_fechamento" nullable="false"/>
+    <field name="nomeProduto" type="string" column="nome_produto" length="42" nullable="false"/>
+    <field name="qtdeTotal" type="float" column="qtde_total" nullable="true"/>
+    <field name="vlrTotal" type="float" column="vlr_total" nullable="true"/>
+    <field name="dtUltimaAtualizacao" type="datetime" column="dt_ultima_atualizacao" nullable="true"/>
+  </entity>
+</doctrine-mapping>

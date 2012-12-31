@@ -1,0 +1,115 @@
+{% extends "AgpAdminBundle:Produto:base-produto.html.twig" %}
+{% block content %}
+<div>   
+ <div class="wrapper-widget" style="min-width: 520px;">
+    <div class="row-fluid">
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Produtos<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+    </div>
+    <div id="widgetDefault" class="content-widget collapse in">
+    <form id="formTable" action="" method="POST">
+         <table class="toolstable table table-striped" style="min-width: 500px;">
+            <colgroup>
+                <col class="con0" />
+                <col class="con1" />
+                <col class="con0" />
+                <col class="con1" />
+                <col class="con0" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="head0"></th>
+                    <th class="head0">Nome</th>
+                    <th class="head1">Valor</th>
+                    <th class="head0">Mínimo</th>
+                    <th class="head1">Atual</th>
+                    <th class="head0" style="width: 200px;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+     </form>
+  </div>
+ </div>
+</div>    
+{% endblock %}
+
+{% block javascript_diff %}
+<script type="text/javascript">
+$(document).ready(function()
+{   
+    dtNewProps = {
+              "bDeferRender": true,
+              "sServerMethod": "POST",
+              "sAjaxSource": Routing.generate("produtoAjax"),
+              "aoColumns": [
+                { "mDataProp": "codProduto",
+                    "sClass" : "center"},
+                { "mDataProp": "nome" },
+                { "mDataProp": "vlrBase",
+                    "sClass" : "valor"},
+                { "mDataProp": "qtdeMinimo"},
+                { "mDataProp": "qtdeAtual"},
+                { "mDataProp": "codProduto",
+                    "sClass" : "center"}, 
+              ],
+              "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
+                               {"bSortable": false, "aTargets": [5]}],
+              "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
+                 $('td:eq(0)', nRow).html('<input class="check-table" type="checkbox" name="produtos[]" value="'+aData['codProduto']+'">'); 
+                 $(nRow).children(".valor").html(formataDinheiroTabela(aData['vlrBase']+""));
+                 $('td:eq(5)', nRow).html(
+                    "<a class='btn action action-edit' href="+Routing.generate("produtoEdit", {"id" : aData['codProduto']})+" title='Editar Produto'><i class='icon-file'></i>Editar</a>"+
+                    "<a class='btn action action-confirm' data-href='"+Routing.generate("produtoDelete", {"id" : aData['codProduto']})+"' data-texto='Deletar este produto: "+aData['nome']+"' title='Deletar Produto' ><i class='icon-trash'></i>Deletar</a>"
+                 );
+              },
+             
+     }
+        
+    dtToolsProps = {
+         "aButtons": [
+            "copy",
+            "print",
+            "pdf",
+            {
+                "sExtends": "text",
+                "sButtonText": 'Adicionar',
+                "fnClick" : function(){
+                    ajaxLoadDialog(Routing.generate("produtoAdd") , "Adicionar Produto")
+                },
+            },
+            {
+                "sExtends": "text",
+                "sButtonText": 'Adicionar ++',
+                "fnClick" : function(){
+                    window.location.replace(Routing.generate("produtoGroupAdd"));
+                },
+            },
+            {
+                "sExtends": "text",
+                "sButtonText": 'Editar',
+                "sButtonClass": "hidden check-button",
+                "fnClick" : function(){
+                    formCheck = $("#formTable");
+                    formCheck.attr("action", Routing.generate("produtoGroupEdit"));
+                    formCheck.trigger("submit");
+                    //formSubmitTableEdit($("#formTable"), Routing.generate("produtoGroupEdit"))
+                },
+            },
+            {
+                "sExtends": "text",
+                "sButtonText": "Deletar",
+                "sButtonClass": "hidden check-button",
+                "fnClick" : function(){
+                    formConfirmGroupDelete($("#formTable"), Routing.generate("produtoGroupDelete"))            
+                }
+            },
+         ]
+    };
+
+    initDataTableTools(tTable, dtNewProps, dtToolsProps);
+ 
+});
+  
+</script>
+{% endblock %}

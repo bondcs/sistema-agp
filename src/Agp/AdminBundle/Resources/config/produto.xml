@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="agp.produto.form" factory-method="createNamed" factory-service="form.factory" class="Symfony\Component\Form\Form">
+            <argument>agp_adminbundle_produtotype</argument>
+            <argument>agp_adminbundle_produtotype</argument>
+        </service>
+
+        <service id="agp.produto.form.type" class="Agp\AdminBundle\Form\Type\ProdutoType">
+            <tag name="form.type" alias="agp_adminbundle_produtotype" />
+        </service>
+        
+        <service id="agp.produto.manager" class="Agp\AdminBundle\Manager\ProdutoManager" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+            <argument>Agp\AdminBundle\Entity\Produto</argument>
+            <argument type="service" id="security.context" />
+        </service>
+
+        <service id="agp.produto.form.handler" class="Agp\AdminBundle\Form\Handler\ProdutoHandler" scope="request" public="true">
+            <argument type="service" id="agp.produto.form" />
+            <argument type="service" id="agp.produto.manager" />
+            <argument type="service" id="request" />
+        </service>
+    </services>
+
+</container>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Produto" table="produto">
+    <id name="codEmpresa" type="integer" column="cod_empresa"/>
+    <id name="codProduto" type="integer" column="cod_produto"/>
+    <field name="nome" type="string" column="nome" length="42" nullable="false"/>
+    <field name="vlrBase" type="float" column="vlr_base" nullable="true"/>
+    <field name="qtdeMinimo" type="float" column="qtde_minimo" nullable="true"/>
+    <field name="qtdeAtual" type="float" column="qtde_atual" nullable="true"/>
+  </entity>
+</doctrine-mapping>

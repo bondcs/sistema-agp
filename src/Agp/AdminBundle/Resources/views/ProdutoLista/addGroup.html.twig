@@ -1,0 +1,51 @@
+{% extends "AgpAdminBundle:ProdutoLista:base-produtoLista.html.twig" %}
+
+{% block content %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+           <li><a href="{{path("pageIndex")}}">Home</a> <span class="divider">/</span></li>
+           <li><a href="{{path("listaIndex")}}">Lista de preço</a> <span class="divider">/</span></li>
+           <li><a href="{{path("produtoListaIndex", {"id" : entity.codListaPreco})}}">{{entity.nome}}</a></li>
+           
+        </ul>
+{% endblock %}
+<div class="wrapper-widget">
+    <div class="row-fluid">
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Formulário para adicionar produtos a lista: {{entity.nome}}<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+    </div>
+    <div id="widgetDefault" class="content-widget widget-form collapse in">
+    <form novalidate="" class="form-horizontal" action="{{path("produtoListaGroupAdd", {"listaId" : entity.codListaPreco})}}" method="POST" {{ form_enctype(form) }}>
+        <ul class="collectionItens" data-nomeCollection="Adicionar à lista: {{entity.nome}}" data-prototype="{{ form_widget(form.produtoListas.vars.prototype)|e }}">
+            {# iterate over each existing tag and render its only field: name #}
+            {% for produtoLista in form.produtoListas %}
+                <li><h4>Adicionar à lista: {{entity.nome}}<a href='#' class='remove-item btn btn-danger pull-right'><i class='icon-remove'></i>Remover</a></h4><hr></li>
+                <li>
+                    {{ form_row(produtoLista.produto) }}
+                    {{ form_row(produtoLista.vlrProduto)}} 
+                    {{ form_row(produtoLista.limiteVendas) }} 
+                </li>
+
+            {% endfor %}
+        </ul>
+        {{ form_row(form._token) }}
+        <div class="center span7 nomargin">
+            <a href="#" class="add-item btn btn-success pull-right"><i class="icon-plus-sign"></i>Add mais</a>
+            <button type="submit" class="btn"><i class="icon-ok"></i>Enviar</button>
+        </div>
+        {# ... #}
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript_diff %}
+    {{parent()}}
+    <script type="text/javascript"> 
+        $(function(){
+            $(document).on('click', '.add-item', function(e){
+                $(".chzn-select").chosen();
+            });
+       })
+    </script>
+{% endblock %}
+

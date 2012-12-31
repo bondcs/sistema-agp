@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %} Home {% endblock %} - Agape Soluções</title>
+        {#filter='cssrewrite'#}
+        {% stylesheets filter='cssrewrite'
+                    'bundles/agpfront/css/jquery-ui-1.9.2.custom.min.css'
+                    'bundles/agpfront/css/bootstrap.min.css'
+                    'bundles/agpfront/css/bootstrap-responsive.min.css'
+                    'bundles/agpfront/css/TableTools.css'
+                    'bundles/agpfront/css/layout.css'
+                    'bundles/agpfront/css/jquery.pnotify.default.css'
+                    'bundles/agpfront/css/chosen.css'
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="screen" />
+        {% endstylesheets %} 
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <div id="wrap">
+        {% block body %}
+        <div id="header" class="row-fluid">
+            <div class="span2 center">
+                <a href="{{path("pageIndex")}}"><img src="{{ asset('bundles/agpfront/images/logo.png') }}"></a>
+            </div>
+            <div class="span8 center">
+                <h2></h2>
+            </div>
+        </div>
+        <div class="navbar menu-top">
+            <div class="navbar-inner">
+                <div class="container-fluid ">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                           <li><a href="{{path("pageIndex")}}"><i class="icon-home"> </i>Home</a></li> 
+                           <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book"> </i>Relatório <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                  <li><a href="{{path("relatorioVendaGeral")}}">Vendas</a></li>
+                                </ul>
+                           </li>
+                        </ul>
+                        <ul class="nav pull-right">
+                            <li class="divider-vertical"></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"> </i>{{ app.user.nome }} <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                  <li><a href="{{path("_security_logout_a")}}">Sair</a></li>
+                                </ul>
+                           </li>
+                        </ul>
+ 
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="container-fluid">
+            <div class="row-fluid">
+             {% block menuside %}
+                    <div class="span2 sidebar">
+                        {% include "AgpAdminBundle:Usuario:menu-usuario.html.twig" %}
+                    </div>
+             {% endblock %}
+                    
+             <div class="{% block width_content %}span10{% endblock %} wrapper-content">
+                {% for type, flashMessages in app.session.flashbag.all() %}
+                    {% for flashMessage in flashMessages %}
+                        <div class="alert fade in flash-{{ type }}">
+                            <button class="close" data-dismiss="alert" type="button">×</button>
+                            {{ flashMessage }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}  
+                <div class="row-fluid">
+                 {% block content %}
+                        {% block breadcrumb %}
+                        {% endblock %}
+                 {% endblock %}
+                </div>
+               
+            </div>
+            {% block sidebar_right %}      
+            {% endblock %}
+            </div>
+        </div>
+       </div>
+       <div id="footer" class="clearfix">
+            <div class="row-fluid">
+            </div>
+       </div>  
+        
+        <div id="confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Deletar registro</h3>
+            </div>
+            <div class="modal-body">
+                <p>Realmente deseja executar esta ação?</p>
+            </div>
+             <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Close</a>
+                <a href="#" class="btn btn-inverse confirm-link">Deletar</a>
+            </div>
+        </div> 
+            {% block dialog %}     
+                <div id="dialog" title="Basic dialog">
+                    <p></p>
+                </div>
+
+                <div id="dialog-confirm" title="Basic dialog">
+                    <p></p>
+                </div>
+            {% endblock %}
+        {% endblock %}
+            
+        
+            
+        <script type="text/javascript">var path = "{{asset('bundles')}}"</script>    
+        {% javascripts filter='yui_js'
+            'bundles/agpfront/js/jquery-1.8.3.min.js'
+            'bundles/agpfront/js/jquery-ui-1.9.2.custom.min.js'
+            'bundles/agpfront/js/jquery.cookie.js'
+            'bundles/agpfront/js/bootstrap.min.js'
+            'bundles/agpfront/js/jquery.dataTables.min.js'
+            'bundles/agpfront/js/fnReloadAjax.js'
+            'bundles/agpfront/js/TableTools.min.js'
+            'bundles/agpfront/js/bootstrap.dataTable.js'
+            'bundles/agpfront/js/jquery.pnotify.min.js'
+            'bundles/agpfront/js/chosen.jquery.min.js'
+            'bundles/agpfront/js/jquery.maskedinput-1.3.min.js'
+            'bundles/agpfront/js/agp.js'
+            
+                 %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {% block javascript %}
+            <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+            <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+        {% endblock %}
+        {% block javascript_diff %}
+        {% endblock %}
+        <img class="ajaxLoader" src="{{ asset('bundles/agpfront/images/335.gif') }}"/>
+    </body>
+</html>

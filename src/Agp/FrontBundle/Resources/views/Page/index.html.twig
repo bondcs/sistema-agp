@@ -1,0 +1,93 @@
+{% extends "::base.html.twig" %}
+{% block breadcrumb %}{% endblock %}
+{% block width_content %}span6{% endblock %}
+{% block content %}
+ <div class="wrapper-widget">
+    <div class="row-fluid">
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Dashboard<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDashBoard"></i></span></div>
+    </div>
+    <div id="widgetDashBoard" class="content-widget collapse in">
+    <ul id="widget-atalho" class="clearfix">
+        <li><a href="{{path("relatorioVendaGeral")}}"><img src="{{asset("bundles/agpfront/images/book-alt-2.png")}}"><div class="wrapper-label"><span>Relatório de Vendas</span></div></a></li>
+        <li><a href="{{path("produtoIndex")}}"><img src="{{asset("bundles/agpfront/images/basket-alt-3.png")}}"><div class="wrapper-label"><span>Produtos</span></div></a></li>
+        <li><a href="{{path("listaIndex")}}"><img src="{{asset("bundles/agpfront/images/list-ordered.png")}}"><div class="wrapper-label"><span>Lista de Preços</span></div></a></li>
+    </ul>
+  </div>
+ </div>
+{% endblock %}
+
+{% block sidebar_right %}
+<div class="span4 sidebar">
+         <div class="wrapper-widget">
+            <div class="row-fluid">
+                <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Terminais<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetContent"></i></span></div>
+            </div>
+            <div id="widgetContent" class="content-widget collapse in">
+             <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Série</th>
+                  <th class="center" style="width: 150px;">Situação</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for empresaReference in user.empresa.terminaisAtivos %}
+                    <tr>
+                        <th>{{empresaReference.terminal.noSerie}}</th>
+                        <th class="center">{{empresaReference.terminal.situacao}}</th>
+                        <td><a href="{{path("showByUser", {"id" : empresaReference.codTerminalEmpresa})}}" class="btn action"><i class="icon-edit"></i>Gerenciar</a></td>
+                    </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+       </div>
+        
+         <div class="wrapper-widget">
+                <div class="row-fluid">
+                    <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Sidebar-2<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetContent2"></i></span></div>
+                </div>
+                <div id="widgetContent2" class="content-widget collapse in">
+                    <div class="accordion" id="accordion" >
+                <div class="accordion-group" style="border: none;">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                      Collapsible Group Item #1
+                    </a>
+                  </div>
+                  <div id="collapse1" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                      Collapsible Group Item #2
+                    </a>
+                  </div>
+                  <div id="collapse2" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia . Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                      Collapsible Group Item #3
+                    </a>
+                  </div>
+                  <div id="collapse3" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute.
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
+            </div> 
+</div>
+{% endblock %}

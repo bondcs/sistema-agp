@@ -1,0 +1,42 @@
+{% extends "AgpAdminBundle:Produto:base-produto.html.twig" %}
+
+{% block content %}
+{% block breadcrumb %}
+        <ul class="breadcrumb">
+           <li><a href="{{path("pageIndex")}}">Home</a> <span class="divider">/</span></li>
+           <li><a href="{{path("produtoIndex")}}">Lista de produtos</a></li>
+        </ul>
+{% endblock %}
+<div class="wrapper-widget">
+    <div class="row-fluid">
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Formulário de Produto<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+    </div>
+    <div id="widgetDefault" class="content-widget widget-form collapse in">
+    <form novalidate="" class="form-horizontal" action="{{path("produtoGroupAdd")}}" method="POST" {{ form_enctype(form) }}>
+            <ul class="collectionItens" data-nomeCollection="Adicionar produto" data-prototype="{{ form_widget(form.produtos.vars.prototype)|e }}">
+                {# iterate over each existing tag and render its only field: name #}
+                {% for produto in form.produtos %}
+                    <li><h4>Adicionar produto<a href='#' class='remove-item btn btn-danger pull-right'><i class='icon-remove'></i>Remover</a></h4><hr></li>
+                    <li>{{ form_row(produto.nome) }}
+                    {{ form_row(produto.vlrBase)}} 
+                    {{ form_row(produto.qtdeMinimo) }} 
+                    {{ form_row(produto.qtdeAtual) }} </li>
+
+                {% endfor %}
+            </ul>
+            {{ form_row(form._token) }}
+            <div class="center span7 nomargin">
+                <a href="#" class="add-item btn btn-success pull-right"><i class="icon-plus-sign"></i>Add mais</a>
+                <button type="submit" class="btn"><i class="icon-ok"></i>Enviar</button>
+            </div>
+            {# ... #}
+    </form>
+</div>
+</div>
+{% endblock %}
+
+{% block javascript_diff %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}

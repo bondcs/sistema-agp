@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Empresa" table="empresa">
+    <id name="codEmpresa" type="integer" column="cod_empresa">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="razaoSocial" type="string" column="razao_social" length="45" nullable="false"/>
+    <field name="fantasia" type="string" column="fantasia" length="45" nullable="true"/>
+    <field name="cnpj" type="string" column="cnpj" length="45" nullable="false"/>
+    <field name="ie" type="string" column="ie" length="45" nullable="true"/>
+    <field name="im" type="string" column="im" length="45" nullable="true"/>
+    <field name="endereco" type="string" column="endereco" length="45" nullable="false"/>
+    <field name="complemento" type="string" column="complemento" length="45" nullable="true"/>
+    <field name="cep" type="string" column="cep" length="45" nullable="false"/>
+    <field name="bairro" type="string" column="bairro" length="45" nullable="false"/>
+    <field name="codCidade" type="integer" column="cod_cidade" nullable="false"/>
+    <field name="codPessoaMaster" type="integer" column="cod_pessoa_master" nullable="true"/>
+  </entity>
+</doctrine-mapping>

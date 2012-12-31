@@ -1,0 +1,86 @@
+{% extends "AgpAdminBundle:Atendente:base-atendente.html.twig" %}
+{% block content %}
+ <div class="wrapper-widget" style="min-width: 520px;">
+    <div class="row-fluid">
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Atendentes<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+    </div>
+    <div id="widgetDefault" class="content-widget collapse in">
+     <form id="formTable" action="" method="POST">
+         <table class="toolstable table table-striped" style="min-width: 500px;">
+            <colgroup>
+                <col class="con0" />
+                <col class="con1" />
+                <col class="con0" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th class="head0"></th>
+                    <th class="head0">Nome</th>
+                    <th class="head0" style="width: 200px;">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+     </form>
+  </div>
+</div>    
+{% endblock %}
+
+{% block javascript_diff %}
+<script type="text/javascript">
+$(document).ready(function()
+{   
+    dtNewProps = {
+              "bDeferRender": true,
+              "sServerMethod": "POST",
+              "sAjaxSource": Routing.generate("atendenteAjax"),
+              "aoColumns": [
+                { "mDataProp": "codAtendente",
+                    "sClass" : "center"},
+                { "mDataProp": "nome" },
+                { "mDataProp": "codAtendente",
+                    "sClass" : "center"}, 
+              ],
+              "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
+                               {"bSortable": false, "aTargets": [2]}],
+              "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
+                 $('td:eq(0)', nRow).html('<input class="check-table" type="checkbox" name="atendentes[]" value="'+aData['codAtendente']+'">'); 
+                 $('td:eq(2)', nRow).html(
+                    "<a class='btn action action-edit' href="+Routing.generate("atendenteEdit", {"id" : aData['codAtendente']})+" title='Editar Atendente'><i class='icon-file'></i>Editar</a><a class='btn action action-confirm' data-href='"+Routing.generate("atendenteDelete", {"id" : aData['codAtendente']})+"' data-texto='Deletar este atendente: "+aData['nome']+"' title='Deletar Atendente' ><i class='icon-trash'></i>Deletar</a>"
+                 );
+              },
+             
+     }
+        
+    dtToolsProps = {
+         "aButtons": [
+            "copy",
+            "print",
+            "pdf",
+            {
+                "sExtends": "text",
+                "sButtonText": 'Adicionar',
+                "fnClick" : function(){
+                    ajaxLoadDialog(Routing.generate("atendenteAdd") , "Adicionar Atendente")
+                },
+            },
+            {
+                "sExtends": "text",
+                "sButtonText": "Deletar",
+                "sButtonClass": "hidden check-button",
+                "fnClick" : function(){
+                    formConfirmGroupDelete($("#formTable"), Routing.generate("atendenteGroupDelete"))            
+                }
+            },
+         ]
+    };
+
+    initDataTableTools(tTable, dtNewProps, dtToolsProps);
+ 
+});
+  
+</script>
+{% endblock %}
+
+

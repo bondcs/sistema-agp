@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Evento" table="evento">
+    <id name="codEvento" type="integer" column="cod_evento">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="codEmpresa" type="integer" column="cod_empresa" nullable="false"/>
+    <field name="nome" type="string" column="nome" length="45" nullable="false"/>
+    <field name="dtInicio" type="date" column="dt_inicio" nullable="true"/>
+    <field name="dtTermino" type="date" column="dt_termino" nullable="true"/>
+  </entity>
+</doctrine-mapping>

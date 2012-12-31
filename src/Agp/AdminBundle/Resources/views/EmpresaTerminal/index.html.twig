@@ -1,0 +1,145 @@
+{% extends "AgpAdminBundle:Empresa:show.html.twig" %}
+
+{% block contentProfile %}
+<fieldset>
+    <legend>Terminais</legend>
+        <form id="formTable" action="" method="POST">
+        <table class="toolstable table table-striped" style="min-width: 430px;">
+           <colgroup>
+               <col class="con1" />
+               <col class="con0" />
+               <col class="con1" />
+               <col class="con0" />
+               <col class="con1" />
+               <col class="con0" />
+           </colgroup>
+           <thead>
+               <tr>
+                   <th class="head1"></th>
+                   <th class="head0">Situação</th>
+                   <th class="head1">Terminal</th>
+                   <th class="head1">Liberação</th>
+                   <th class="head0">Data de Liberação</th>
+                   <th class="head1">Bloqueado</th>
+                   <th class="head0 center" style="width: 300px;">Ações</th>
+               </tr>
+           </thead>
+           <tbody>
+           </tbody>
+       </table>
+       </form>
+</fieldset>
+{% endblock %}
+{% block javascript_diff %}
+<script type="text/javascript">
+$(document).ready(function()
+{   
+    dtNewProps = {
+              "bDeferRender": true,
+              "sServerMethod": "POST",
+              "sAjaxSource": Routing.generate("empresaTerminalAjax", {"id" : {{entity.codEmpresa}}}),
+              "aoColumns": [
+                { "mDataProp": "codTerminalEmpresa",
+                    "sClass" : "center"},
+                { "mDataProp": "situacao",
+                    "sClass" : "check center pointer"},
+                { "mDataProp": "terminal.noSerie"},
+                { "mDataProp": "liberacao" },
+                { "mDataProp": "dtLiberacao"},
+                { "mDataProp": "bloquear" },
+                { "mDataProp": "codTerminalEmpresa",
+                    "sClass" : "center"}, 
+              ],
+              "aoColumnDefs": [{"bSortable": false, "aTargets": [6]},
+                               {"bSortable": false, "aTargets": [0]}],
+              "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
+                 $('td:eq(0)', nRow).html('<input class="check-table" type="checkbox" name="registros[]" value="'+aData['codTerminalEmpresa']+'">');
+                 $('td:eq(2)', nRow).html('<a class="link" href="'+Routing.generate("showByAdmin", {"id" : aData['terminal']['codTerminal']})+'">'+aData["terminal"]['noSerie']+'</a>');
+                 $('td:eq(4)', nRow).html(formataDate(aData["dtLiberacao"]['date']));
+                 $('td:eq(6)', nRow).html(
+                    "<a class='btn action action-edit' href="+Routing.generate("empresaTerminalEdit", {"id" : aData['codTerminalEmpresa']})+" title='Editar vínculo'><i class='icon-file'></i>Editar</a>"+
+                    "<a class='btn action action-confirm' data-href='"+Routing.generate("empresaTerminalDelete", {"id" : aData['codTerminalEmpresa']})+"' data-texto='Deletar vínculo: "+aData['terminal']['noSerie']+"' title='Deletar Vínculo' ><i class='icon-trash'></i>Deletar</a>"
+                 );
+                     
+                 if (aData['situacao'] == "Ativo"){
+                    $('td:eq(1)', nRow).html('<img src='+path+'/agpfront/images/check2.png>');
+                 }else{
+                    $('td:eq(1)', nRow).html('<img src='+path+'/agpfront/images/uncheck2.png>');
+                 }
+              },
+             
+     }
+        
+    dtToolsProps = {
+         "aButtons": [
+            "copy",
+            "print",
+            "pdf",
+            {
+                "sExtends": "text",
+                "sButtonText": 'Adicionar',
+                "fnClick" : function(){
+                    ajaxLoadDialog(Routing.generate("empresaTerminalAdd",{"empresaId" : {{entity.codEmpresa}}}) , "Vincular terminal à empresa")
+                },
+            },
+            {
+                "sExtends": "text",
+                "sButtonText": "Ativar / Desativar",
+                "sButtonClass": "hidden check-button",
+                "fnClick" : function(){
+                    formSubmitTableGroup($("#formTable"), Routing.generate("empresaTerminalChangeSituacaoGroup"))            
+                }
+            },
+            {
+                "sExtends": "text",
+                "sButtonText": "Deletar",
+                "sButtonClass": "hidden check-button",
+                "fnClick" : function(){
+                    formConfirmGroupDelete($("#formTable"), Routing.generate("empresaTerminalGroupDelete"))            
+                }
+            },
+         ]
+    };
+
+    initDataTableTools(tTable, dtNewProps, dtToolsProps);
+});
+
+$(document).on('change', '.vinculo', function(e)
+{
+    if ($(this).val() == "Permanente"){
+        $(".temporario").hide()
+    }else{
+        $(".temporario").show()
+    }
+    
+})
+
+$(function()
+{
+    if ($(this).val() == "Permanente"){
+        $(".temporario").hide()
+    }else{
+        $(".temporario").show()
+    }
+})
+
+$(document).on('click', '.table tbody td.check', function(e){
+        var data = tTable.fnGetData(this.parentNode);
+        url = Routing.generate("empresaTerminalSituacaoCheck", {"id" : data['codTerminalEmpresa']})
+        $.ajax({
+            type: 'POST',
+            url: url,
+            success: function(result){
+                tTable.dataTable().fnReloadAjax();
+                if (result['status'] == 'sucesso'){
+                   notify("regular", "Sucesso", "Acão foi efetuada!")
+                }else if (result['status'] == 'fail'){
+                   notify("error", "Houve um erro", "Este terminal já possui um vínculo ativo.")  
+                }
+                return false;
+            }
+        })
+})
+  
+</script>
+{% endblock %}

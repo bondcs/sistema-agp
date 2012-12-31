@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+ 
+        <service id="agp.terminal.form.type" class="Agp\AdminBundle\Form\Type\TerminalType">
+            <tag name="form.type" alias="agp_adminbundle_terminaltype" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="agp.terminal.manager" class="Agp\AdminBundle\Manager\TerminalManager" public="true">
+            <argument type="service" id="service_container"></argument>
+            <argument>Agp\AdminBundle\Entity\Terminal</argument>
+        </service>
+
+        <service id="agp.terminal.form.handler" class="Agp\AdminBundle\Form\Handler\TerminalHandler" scope="request" public="true">
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="service_container" />  
+        </service>
+    </services>
+
+</container>
