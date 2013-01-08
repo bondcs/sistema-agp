@@ -4,7 +4,7 @@
 <div>
 <div class="wrapper-widget" style="min-width: 520px;">
     <div class="row-fluid">
-        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Empresas<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Empresas<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetDefault"></i></span></div>
     </div>
     <div id="widgetDefault" class="content-widget collapse in">
          <form id="formTable" action="" method="POST">
@@ -50,8 +50,7 @@ $(document).ready(function()
                 { "mDataProp": "razaoSocial" },
                 { "mDataProp": "cnpj"},
                 { "mDataProp": "cidade.nome" },
-                { "mDataProp": "codEmpresa",
-                    "sClass" : "center"}, 
+                { "mDataProp": "codEmpresa"}, 
               ],
               "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
                                {"bSortable": false, "aTargets": [4]}],

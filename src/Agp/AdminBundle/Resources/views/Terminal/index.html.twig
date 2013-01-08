@@ -4,7 +4,7 @@
 <div>
 <div class="wrapper-widget" style="min-width: 520px;">
     <div class="row-fluid">
-        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Terminais<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Terminais<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetDefault"></i></span></div>
     </div>
     <div id="widgetDefault" class="content-widget collapse in">
          <form id="formTable" action="" method="POST">
@@ -26,7 +26,7 @@
                         <th class="head1">Versão</th>
                         <th class="head0">Data de Entrada</th>
                         <th class="head1">Situacao</th>
-                        <th class="head0" style="width: 300px;">Ações</th>
+                        <th class="head0" style="width: 100px;"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,8 +54,7 @@ $(document).ready(function()
                 { "mDataProp": "versao" },
                 { "mDataProp": "dtEntrada" },
                 { "mDataProp": "situacao" },
-                { "mDataProp": "codTerminal",
-                    "sClass" : "center"}, 
+                { "mDataProp": "codTerminal"}, 
               ],
               "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
                                {"bSortable": false, "aTargets": [2]}],
@@ -64,9 +63,21 @@ $(document).ready(function()
                  $('td:eq(1)', nRow).html('<a class="link" href="'+Routing.generate("showByAdmin", {"id" : aData['codTerminal']})+'">'+aData['noSerie']+'</a>');
                  $('td:eq(4)', nRow).html(formataDate(aData["dtEntrada"]["date"]));
                  $('td:eq(6)', nRow).html(
-                    "<a class='btn action action-edit' href="+Routing.generate("terminalEdit", {"id" : aData['codTerminal']})+" title='Editar Terminal'><i class='icon-file'></i>Editar</a>"+
-                    "<a class='btn action' href="+Routing.generate("showByAdmin", {"id" : aData['codTerminal']})+" title='Gerenciar Terminal'><i class='icon-briefcase'></i>Gerenciar</a>"+
-                    "<a class='btn action action-confirm' data-href='"+Routing.generate("terminalDelete", {"id" : aData['codTerminal']})+"' data-texto='Deletar este Terminal: "+aData['noSerie']+"' title='Deletar Terminal' ><i class='icon-trash'></i>Deletar</a>"
+                    '<div class="btn-group">'+
+                       '<a class="btn dropdown-toggle" data-toggle="dropdown">'+
+                       'Acões'+
+                       '<span class="caret"></span>'+
+                       '</a>'+
+                       '<ul class="dropdown-menu">'+
+                        "<li><a class='action action-edit' href="+Routing.generate("terminalEdit", {"id" : aData['codTerminal']})+" title='Editar Terminal'><i class='icon-file'></i>Editar</a></li>"+
+                        "<li><a class='action' href="+Routing.generate("showByAdmin", {"id" : aData['codTerminal']})+" title='Gerenciar Terminal'><i class='icon-briefcase'></i>Gerenciar</a></li>"+
+                        "<li><a class='action action-confirm' data-href='"+Routing.generate("terminalDelete", {"id" : aData['codTerminal']})+"' data-texto='Deletar este Terminal: "+aData['noSerie']+"' title='Deletar Terminal' ><i class='icon-trash'></i>Deletar</a></li>"+
+                       '</ul>'+
+                   '</div>'
+                    
+                 );
+                 $('td:eq(6)', nRow).html(
+                    
                  );
               },
              

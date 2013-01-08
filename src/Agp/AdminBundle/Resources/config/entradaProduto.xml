@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+ 
+        <service id="agp.entradaproduto.form.type" class="Agp\AdminBundle\Form\Type\EntradaProdutoType">
+            <tag name="form.type" alias="agp_adminbundle_entradaprodutotype" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="agp.entradaproduto.manager" class="Agp\AdminBundle\Manager\EntradaProdutoManager" public="true">
+            <argument type="service" id="service_container"></argument>
+            <argument>Agp\AdminBundle\Entity\EntradaProduto</argument>
+        </service>
+
+        <service id="agp.entradaproduto.form.handler" class="Agp\AdminBundle\Form\Handler\EntradaProdutoHandler" scope="request" public="true">
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="service_container" />  
+        </service>
+    </services>
+
+</container>

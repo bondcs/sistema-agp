@@ -3,7 +3,7 @@
 {% block menuside %}{% endblock %}
 {% block width_content %}span12{% endblock %}
     
-{% block title %} Terminal: {{entity.terminal.noSerie}} {% endblock %}
+{% block title %} Terminal: {{entity.terminal.codTerminal}} {% endblock %}
 
 {% block content %}
 <div>
@@ -14,7 +14,7 @@
     {% endblock %}
     <div class="wrapper-widget" style="min-width: 520px;">
         <div class="row-fluid">
-            <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Terminal: {{entity.terminal.noSerie}}<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+            <div class="span12 well well-small header-grid"><span class="title-profile"><i class="icon-th"></i><span class="break"></span>Terminal: {{entity.terminal.codTerminal}}<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetDefault"></i></span></div>
         </div>
         <div id="widgetDefault" class="content-widget content-widget-profile collapse in">
             <div class="row-fluid">

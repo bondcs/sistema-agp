@@ -25,6 +25,5 @@ class TerminalEmpresaRepository extends EntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
-
     
 }

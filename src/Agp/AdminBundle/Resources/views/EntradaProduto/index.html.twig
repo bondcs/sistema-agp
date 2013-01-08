@@ -1,0 +1,115 @@
+{% extends "AgpAdminBundle:Produto:show.html.twig" %}
+    
+{% block contentProfile %}
+<div>
+    <form id="formTable" action="" method="POST">
+        <table class="toolstable table table-striped" style="min-width: 430px;">
+           <colgroup>
+               <col class="con0" />
+               <col class="con1" />
+               <col class="con0" />
+               <col class="con1" />
+               <col class="con0" />
+               <col class="con1" />
+           </colgroup>
+           <thead>
+               <tr>
+                   <th class="head0" style="width: 50px;"><input class="checkAll" type="checkbox"></th>
+                   <th class="head1">Data de Entrada</th>
+                   <th class="head0">Custo (Unitário)</th>
+                   <th class="head0">Custo (Total)</th>
+                   <th class="head1">Quantidade</th>
+                   <th class="head1">Fornecedor</th>
+                   <th class="head0" style="width: 100px;"></th>
+               </tr>
+           </thead>
+           <tbody>
+           </tbody>
+       </table>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block javascript_diff %}
+<script type="text/javascript">
+$(document).ready(function()
+{   
+    dtNewProps = {
+              "bDeferRender": true,
+              "sServerMethod": "POST",
+              "sAjaxSource": Routing.generate('entradaProdutoAjax', {'id' : {{entity.codProduto}}}),
+              "aoColumns": [
+                { "mDataProp": "codEntradaProduto",
+                    "sClass" : "center"},
+                { "mDataProp": "dtEntrada" },
+                { "mDataProp": "vlrCusto",
+                    "sClass" : "center"},
+                { "mDataProp": "codEntradaProduto",
+                    "sClass" : "center"},
+                { "mDataProp": "qtde",
+                    "sClass" : "center"},
+                { "mDataProp": "fornecedor.razaoSocial" },
+                { "mDataProp": "codEntradaProduto"}, 
+              ],
+              "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
+                               {"bSortable": false, "aTargets": [1]},
+                               {"bSortable": false, "aTargets": [6]}],
+              "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
+                 $('td:eq(0)', nRow).html('<input class="check-table" type="checkbox" name="registros[]" value="'+aData['codEntradaProduto']+'">'); 
+                 $('td:eq(1)', nRow).html(formataDate(aData["dtEntrada"]["date"], 'datetime'));
+                 $('td:eq(2)', nRow).html(formataDinheiroTabela(aData["vlrCusto"]+""));
+                 $('td:eq(3)', nRow).html(formataDinheiroTabela((aData["vlrCusto"] * aData['qtde'])+""));
+                 $('td:eq(4)', nRow).html(formataQtdTabela(aData["qtde"]+""));
+                 $('td:eq(6)', nRow).html(
+                    '<div class="btn-group">'+
+                       '<a class="btn dropdown-toggle" data-toggle="dropdown">'+
+                       'Acões'+
+                       '<span class="caret"></span>'+
+                       '</a>'+
+                       '<ul class="dropdown-menu">'+
+                        "<li><a class='action action-edit' href="+Routing.generate("entradaProdutoEdit", {"id" : aData['codEntradaProduto']})+" title='Editar Aquisição'><i class='icon-file'></i>Editar</a></li>"+
+                        "<li><a class='action action-confirm' data-href='"+Routing.generate("entradaProdutoDelete", {"id" : aData['codEntradaProduto']})+"' data-texto='Deletar esta Aquisição' title='Deletar Aquisição' ><i class='icon-trash'></i>Deletar</a></li>"+
+                       '</ul>'+
+                   '</div>'
+                    
+                 );
+              },
+             
+     }
+        
+    dtToolsProps = {
+         "aButtons": [
+            "copy",
+            "print",
+            "pdf",
+            {
+                "sExtends": "text",
+                "sButtonText": 'Adicionar',
+                "fnClick" : function(){
+                    ajaxLoadDialog(Routing.generate("entradaProdutoAdd",{'produto' : {{entity.codProduto}}}) , "Adicionar Aquisição")
+                },
+            },
+            {
+                "sExtends": "text",
+                "sButtonText": "Deletar",
+                "sButtonClass": "hidden check-button",
+                "fnClick" : function(){
+                    formConfirmGroupDelete($("#formTable"), Routing.generate("entradaProdutoGroupDelete"))            
+                }
+            },
+         ]
+    };
+
+    initDataTableTools(tTable, dtNewProps, dtToolsProps);
+ 
+});
+  
+</script>
+{% endblock %}
+
+{% block dialog %}
+    <div id="dialog-fast" title="Basic dialog">
+         <p></p>
+    </div>
+{% endblock %}

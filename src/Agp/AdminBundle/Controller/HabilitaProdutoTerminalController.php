@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Agp\AdminBundle\Form\FormFilter\HabilitaProdutoType;
+use Agp\AdminBundle\Form\Type\HabilitaProdutoType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -29,8 +29,8 @@ class HabilitaProdutoTerminalController extends Controller{
      */
     public function indexAction($id)
     {    
-        $form = $this->createForm(new HabilitaProdutoType($this->getUser()));
-        $entity = $this->get("agp.terminalEmpresa.manager")->findById($id); 
+        $entity = $this->get("agp.terminalEmpresa.manager")->findById($id);
+        $form = $this->createForm(new HabilitaProdutoType($this->getUser(), $entity));
         
         return array("form" => $form->createView(),
                      "entity" => $entity);
@@ -169,6 +169,37 @@ class HabilitaProdutoTerminalController extends Controller{
     {
         $entities["aaData"] = $this->getDoctrine()->getRepository("AgpAdminBundle:HabilitaProdutoTerminal")->getHabilitaProdutoTerminalByTerminal($terminalEmpresa);
         return new JsonResponse($entities);
+    }
+    
+    /**
+     * @Route("/habilita-grupo/", name="habilitaProdutoTerminalAddGrupo", options={"expose" = true})
+     * @Template("")
+     */
+    public function indexAddGrupoAction()
+    {    
+        $form = $this->createForm(new HabilitaProdutoType($this->getUser()));
+        return array("form" => $form->createView());
+    }
+    
+    /**
+     * @Route("/gera-produto-vinculado-grupo/", name="geraProdutoVinculadoGrupo", options={"expose" = true})
+     * @Template("")
+     */
+    public function addGrupoAction(Request $request)
+    {
+      
+      $form = $this->createForm(new HabilitaProdutoType($this->getUser()));
+      $form->bind($request);
+      
+      $terminais = $form['terminais']->getData();
+      $lista = $form['lista']->getData();
+      $produtos = $request->get("registros");
+      
+      $manager = $this->get("agp.habilitaProdutoTerminal.manager");
+      $manager->habilitaProdutoTerminalGrupo($lista, $terminais, $produtos);
+
+      return new JsonResponse(array("status" => "sucesso"));
+  
     }
 
 }

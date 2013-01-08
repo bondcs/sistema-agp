@@ -24,6 +24,7 @@ class PageController extends Controller {
      */
     public function indexAction()
     {
+        $listas = $this->get("agp.lista.manager")->findByEmpresa($this->getUser()->getEmpresa());
         return (array("user" => $this->getUser()));
     }
 }

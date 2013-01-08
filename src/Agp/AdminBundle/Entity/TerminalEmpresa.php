@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @ORM\Table(name="terminal_empresa")
  * @ORM\Entity(repositoryClass="Agp\AdminBundle\Repository\TerminalEmpresaRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class TerminalEmpresa
 {
@@ -112,7 +113,11 @@ class TerminalEmpresa
         $this->habilitaProdutoTerminalList = new ArrayCollection;
     }
     
-    public function isAtivo(){
+    public function __toString() {
+        return (string)$this->terminal->getCodTerminal();
+    }
+
+        public function isAtivo(){
         if ($this->situacao == self::SIT_ATIVO){
             return true;
         }else{
@@ -133,10 +138,21 @@ class TerminalEmpresa
      */
     public function isDateLegal()
     {
-        if ($this->dtInicio > $this->dtTermino){
+        if ($this->dtInicio > $this->dtTermino && $this->tipoVinculo == self::BLQ_TEMPORARIO){
             return false;
         }
         
+    }
+    
+    /**
+     * @ORM\PrePersist @ORM\PreUpdate
+     */
+    public function onRotinaDate()
+    {
+        if ($this->tipoVinculo != self::BLQ_TEMPORARIO){
+            $this->dtInicio = null;
+            $this->dtTermino = null;
+        }
     }
     
     static public function determineValidationGroups($form){

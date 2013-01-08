@@ -91,7 +91,7 @@ class VendaGeralRepository extends EntityRepository
         
         $fechamentos['options'] = array();
         foreach ($qb->getQuery()->getArrayResult() as $num){
-            $fechamentos['options'][$num["numFechamento"]] = $num["numFechamento"];
+            $fechamentos['options'][$num["numFechamento"]] = str_pad($num["numFechamento"], 4, "0", STR_PAD_LEFT);
         }
         
         $qb2 = $this->createQueryBuilder("v")
@@ -116,7 +116,7 @@ class VendaGeralRepository extends EntityRepository
         
         $terminais['options'] = array();
         foreach ($qb->getQuery()->getArrayResult() as $num){
-            $terminais['options'][$num["codTerminal"]] = $num["codTerminal"];
+            $terminais['options'][$num["codTerminal"]] = str_pad($num["codTerminal"], 4, "0", STR_PAD_LEFT);
         }
         
         return $terminais;  

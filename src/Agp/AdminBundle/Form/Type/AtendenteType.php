@@ -12,11 +12,11 @@ class AtendenteType extends AbstractType
     {
         $builder
             ->add('nome', 'text', array(
-                  'label' => "Nome",
+                  'label' => "Nome:",
                   'attr' => array('placeholder' => 'Nome')
             ))
             ->add('senha', 'password', array(
-                  'label' => "Senha",  
+                  'label' => "Senha: (opcional)",  
                   'attr' => array('placeholder' => 'Senha')
             ))
         ;

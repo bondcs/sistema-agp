@@ -1,5 +1,16 @@
 {{form_errors(form)}}
 
+<div class="control-group">
+    <div class="control-erro">
+       {{ form_errors(form.produto) }} 
+    </div>
+    {{ form_label(form.produto) }}
+    <div class="controls control-add-rapido">
+        {{ form_widget(form.produto) }}
+        <a href="#" class="btn btn-primary add-rapido" title="Adicionar Produto" data-rota="produtoAddFast">+</a>
+    </div>
+</div>
+
 {{ form_row(form.produto)}}
 {{ form_row(form.vlrProduto)}}
 {{ form_row(form.limiteVendas)}}

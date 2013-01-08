@@ -38,6 +38,11 @@ class ListaManager {
         return $this->repository->find($id);
     }
     
+    public function findByEmpresa($empresa)
+    {
+        return $this->repository->findBy(array("empresa" => $empresa));
+    }
+    
     public function createLista()
     {
         $class = $this->class;

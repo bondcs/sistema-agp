@@ -13,21 +13,21 @@ class ProdutoType extends AbstractType
         $builder
             ->add('codProduto', 'hidden')
             ->add('nome', 'text', array(
-                  'label' => "Nome",
+                  'label' => "Nome:",
                   'attr' => array('placeholder' => 'Nome')
             ))
             ->add('vlrBase', 'text', array(
-                  'label' => "Valor",  
+                  'label' => "Valor:",  
                   'attr' => array('placeholder' => 'Valor',
                                   'class' => 'moeda')
             ))
             ->add('qtdeMinimo', 'integer', array(
-                  'label' => "Quantidade Mínimo", 
-                  'attr' => array('placeholder' => 'Quantidade Mínimo')
+                  'label' => "Quantidade Mínimo: (opcional)", 
+                  'attr' => array('placeholder' => 'Quantidade Mínimo'),
             ))
             ->add('qtdeAtual', 'integer', array(
-                  'label' => "Quantidade Atual",
-                  'attr' => array('placeholder' => 'Quantidade Atual')
+                  'label' => "Quantidade Atual: (opcional)",
+                  'attr' => array('placeholder' => 'Quantidade Atual'),
             ))
         ;
     }

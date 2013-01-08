@@ -35,5 +35,7 @@ class AgpAdminExtension extends Extension
         $loader->load('habilitaProdutoTerminal.xml');
         $loader->load('empresaTerminal.xml');
         $loader->load('pessoa.xml');
+        $loader->load('fornecedor.xml');
+        $loader->load('entradaProduto.xml');
     }
 }

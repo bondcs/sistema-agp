@@ -1,0 +1,13 @@
+<form id="ajax-form-fast" novalidate="" class="form" method="POST" action="{{path("fornecedorAddFast")}}">
+    {{form_errors(form)}}
+
+    {{ form_row(form.razaoSocial)}}
+    {{ form_row(form.telefone)}}    
+
+    {{ form_row(form._token) }}
+    <div class="center">
+        <button type="submit" id="submit-form-fast" data-rota="getSelectFornecedorAjax" data-select="fornecedor" class="btn pull-left"><i class="icon-ok"></i>Enviar</button>
+        <a href="#" class="btn pull-right close-dialog-fast"><i class="icon-off"></i>Fechar</a>
+    </div>
+</form>
+

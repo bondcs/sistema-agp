@@ -51,6 +51,7 @@ class ProdutoManager {
         $produto->setEmpresa($this->context->getToken()->getUser()->getEmpresa());
         if ($produto->getCodProduto()){
             $this->em->merge($produto);
+            
         }else{
             $this->em->persist($produto);
         }

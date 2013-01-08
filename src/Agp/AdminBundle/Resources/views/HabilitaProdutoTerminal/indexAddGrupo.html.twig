@@ -1,0 +1,153 @@
+{% extends "AgpAdminBundle:HabilitaProdutoTerminal:base-habilitaProduto.html.twig" %}
+
+{% block content %}
+<div class="wrapper-widget" style="min-width: 520px;">
+    <div class="row-fluid">
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Habilitar produtos aos terminais<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetDefault"></i></span></div>
+    </div>
+    <div id="widgetDefault" class="content-widget collapse in">
+    <form id="formTable" class="habilita-form" action="#" method="POST" class="form-horizontal">
+        <fieldset style="margin-bottom:10px;">
+            <legend>Lista de preços</legend>
+
+                {{form_errors(form)}}
+                {{form_widget(form.lista)}}
+        </fieldset>
+        <fieldset style="margin-bottom:10px;">
+            <legend>Terminais</legend>
+                 <table class="table table-striped" style="width: auto;"> 
+                   <tr>
+                {% for terminal in form.terminais %}    
+                        <td>{{form_widget(terminal, {'attr' : {'checked' : 'checked', 'class' : 'terminal'}})}}</td>
+                        <td class="label-table-checkbox">{{form_label(terminal)}}</td>
+                {% endfor %}
+                   </tr>
+                </table>
+        </fieldset>
+                
+        <fieldset>
+            <legend style="margin-bottom:0px;">Produtos</legend>
+        <table class="toolstable table table-striped" style="min-width: 430px;">
+           <colgroup>
+               <col class="con1" />
+               <col class="con0" />
+               <col class="con1" />
+               <col class="con0" />
+               <col class="con1" />
+           </colgroup>
+           <thead>
+               <tr>
+                   <th class="head1"><input checked="checked" class="checkAll" type="checkbox"></th>
+                   <th class="head1">Produto</th>
+                   <th class="head1">Valor</th>
+                   <th class="head0">Limite de Venda</th>
+                   <th class="head1">Quantidade Atual</th>
+               </tr>
+           </thead>
+           <tbody>
+           </tbody>
+        </table>
+        </fieldset>
+        {{ form_row(form._token) }} 
+        <div class="center">
+            <button id="button-habilita-grupo" style="width:200px; margin-bottom: 20px;" type="button" class="btn btn-large btn-success"><i class="icon-ok"></i>Habilitar</button>
+        </div>
+     </form>
+   </div>
+</div>
+</form>
+{% endblock %}
+{% block javascript_diff %}
+<script type="text/javascript">
+$(document).ready(function()
+{   
+    dtNewProps = {
+              "bDeferRender": true,
+              "bFilter": false,
+              "sServerMethod": "POST",
+              "sDom": "t<'row-fluid'<'span6 info'i><'span6 pull-right page'p>>",
+              "sAjaxSource": Routing.generate("produtoListaAjax",{"id" : $(".lista").val() ? $(".lista").val() : 0}),
+              "aoColumns": [
+                { "mDataProp": "codProdutoListaPreco",
+                    "sClass" : "center"},
+                { "mDataProp": "produto.nome"},
+                { "mDataProp": "vlrProduto" },
+                { "mDataProp": "limiteVendas",
+                    "sClass" : "center"},
+                { "mDataProp": "produto.qtdeAtual",
+                    "sClass" : "center"},
+              ],
+              "aoColumnDefs": [{"bSortable": false, "aTargets": [0]}],
+              "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
+                 $('td:eq(0)', nRow).html('<input checked="checked" class="produto check-table" type="checkbox" name="registros[]" value="'+aData['codProdutoListaPreco']+'">'); 
+                 $('td:eq(2)', nRow).html(formataDinheiroTabela(aData['vlrProduto']+""));
+                 $('td:eq(3)', nRow).html(formataQtdTabela(aData['limiteVendas']+""));
+                 $('td:eq(4)', nRow).html(formataQtdTabela(aData['produto']['qtdeAtual']+""));
+                 $(nRow).addClass("row_selected");    
+              },
+             
+     }
+         
+    dtToolsProps = {
+         "aButtons": [
+         ]
+    };
+
+    initDataTableTools(tTable, dtNewProps, dtToolsProps);
+    
+     $(".lista").change(function(){   
+            tTable.fnNewAjax(Routing.generate("produtoListaAjax",{"id" : $(".lista").val() ? $(".lista").val() : 0}));            
+            tTable.dataTable().fnReloadAjax();
+    })
+});
+
+$(function() {
+        $("#button-habilita-grupo").click(function(e){
+            
+            if ($(".lista").val() == ""){
+                notify("error", "Selecione uma lista!", "Nenhuma lista selecionada")
+                return false;
+            }
+            
+            var flagTerminal = true;
+            $(".terminal:checked").each(function(){
+                flagTerminal = false;
+            })
+            
+            if (flagTerminal == true){
+                notify("error", "Selecione um terminal!" , "Nenhuma terminal selecionado")
+                return false;
+            }
+            
+             var flagProduto = true;
+            $(".produto:checked").each(function(){
+                flagProduto = false;
+            })
+            
+            if (flagProduto == true){
+                notify("error", "Selecione um produto!", "Nenhum produto selecionado" )
+                return false;
+            }
+            
+            e.preventDefault();
+                $.ajax({
+                    timeout: 5000,
+                    type: 'POST',
+                    url: Routing.generate("geraProdutoVinculadoGrupo"),
+                    data: $(".habilita-form").serialize(),
+                    success: function(result){
+                        if (result['status'] == "sucesso"){
+                            tTable.dataTable().fnReloadAjax();
+                            notify("regular", "Sucesso", "Acão foi efetuada!")
+                            return false;
+                        }
+                        onReady();
+                    }
+                })
+                
+            return false;
+        })
+  })
+ 
+</script>
+{% endblock %}

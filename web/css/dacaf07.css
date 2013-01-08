@@ -464,7 +464,6 @@ a{
 .side-menu li a{
     padding: 10px 8px;
     margin: 0px !important;
-    color: #333333 !important;
 }
 
 .side-menu i{
@@ -554,7 +553,7 @@ a{
 .content-widget{
     background-color: #FFFFFF;
     position: static;
-    
+    overflow: visible;
 }
 
 
@@ -562,6 +561,10 @@ a{
 .widget-form {
     padding: 30px !important;
     padding-top:13px !important;
+}
+
+.widget-form form {
+    padding-bottom: 30px;
 }
 
 .content-widget{
@@ -686,6 +689,10 @@ button i, a i{
     cursor: default;
 }
 
+.label-table-checkbox > .control-label{
+    width: auto !important;
+}
+
 /* ajax Loading */
 
 .ajaxLoader {
@@ -704,10 +711,8 @@ button i, a i{
 }
 
 .action{
-    font-size: 11.5px !important;
-    padding: 1px 4px !important;
-    margin-right: 4px;
     outline: none;
+    cursor: pointer;
 }
 
 .action i{
@@ -750,7 +755,13 @@ button i, a i{
 .wrapper-widget .accordion{
     margin-bottom: 0px;
 }
+.dropdown-toggle .caret{
+    margin-left: 4px !important;
+}
 
+.dropdown-menu{
+    min-width: 120px;
+}
 .dropdown-menu li a:hover{
     background-color: #666666 !important;
     background-image: none;
@@ -863,7 +874,8 @@ div.dataTables_length label {
 }
 
 div.dataTables_length select {
-	width: 75px;
+	width: 50px;
+        padding: 4px 3px;
 }
 
 div.dataTables_filter label {
@@ -872,6 +884,7 @@ div.dataTables_filter label {
 
 div.dataTables_info {
 	padding-top: 0px;
+        margin-left: 8px;
 }
 
 div.dataTables_paginate {
@@ -1087,7 +1100,15 @@ div.DTFC_LeftFootWrapper table {
     .page{
         width: 50% !important;
     }
+    
+    
  
+}
+
+@media(max-width: 770px) {
+    #header{
+        padding: 0px !important;
+    } 
 }
 
 @media(min-width:770px) and (max-width: 1024px) {

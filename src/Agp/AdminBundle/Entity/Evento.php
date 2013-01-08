@@ -41,14 +41,16 @@ class Evento
     /**
      * @var \DateTime $dtInicio
      *
-     * @ORM\Column(name="dt_inicio", type="date", nullable=true)
+     * @ORM\Column(name="dt_inicio", type="date", nullable=false)
+     * @Assert\NotBlank
      */
     protected $dtInicio;
 
     /**
      * @var \DateTime $dtTermino
      *
-     * @ORM\Column(name="dt_termino", type="date", nullable=true)
+     * @ORM\Column(name="dt_termino", type="date", nullable=false)
+     * @Assert\NotBlank
      */
     protected $dtTermino;
 

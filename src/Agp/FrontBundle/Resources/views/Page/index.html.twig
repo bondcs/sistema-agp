@@ -4,13 +4,15 @@
 {% block content %}
  <div class="wrapper-widget">
     <div class="row-fluid">
-        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Dashboard<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDashBoard"></i></span></div>
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Dashboard<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetDashBoard"></i></span></div>
     </div>
     <div id="widgetDashBoard" class="content-widget collapse in">
     <ul id="widget-atalho" class="clearfix">
-        <li><a href="{{path("relatorioVendaGeral")}}"><img src="{{asset("bundles/agpfront/images/book-alt-2.png")}}"><div class="wrapper-label"><span>Relatório de Vendas</span></div></a></li>
+        <li><a href="{{path("vendaGeralRelatorio")}}"><img src="{{asset("bundles/agpfront/images/book-alt-2.png")}}"><div class="wrapper-label"><span>Relatório de Vendas</span></div></a></li>
         <li><a href="{{path("produtoIndex")}}"><img src="{{asset("bundles/agpfront/images/basket-alt-3.png")}}"><div class="wrapper-label"><span>Produtos</span></div></a></li>
         <li><a href="{{path("listaIndex")}}"><img src="{{asset("bundles/agpfront/images/list-ordered.png")}}"><div class="wrapper-label"><span>Lista de Preços</span></div></a></li>
+        <li><a href="{{path("habilitaProdutoTerminalAddGrupo")}}"><img src="{{asset("bundles/agpfront/images/mobile.png")}}"><div class="wrapper-label"><span>Habilitar vários terminais</span></div></a></li>
+        <li><a href="{{path("produtolHabilitadoRelatorio")}}"><img src="{{asset("bundles/agpfront/images/cart-alt-4.png")}}"><div class="wrapper-label"><span>Produtos Habilitados</span></div></a></li>
     </ul>
   </div>
  </div>
@@ -20,13 +22,13 @@
 <div class="span4 sidebar">
          <div class="wrapper-widget">
             <div class="row-fluid">
-                <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Terminais<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetContent"></i></span></div>
+                <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Terminais<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetContent"></i></span></div>
             </div>
             <div id="widgetContent" class="content-widget collapse in">
              <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>Série</th>
+                  <th>Número</th>
                   <th class="center" style="width: 150px;">Situação</th>
                   <th>Ações</th>
                 </tr>
@@ -34,8 +36,8 @@
               <tbody>
               {% for empresaReference in user.empresa.terminaisAtivos %}
                     <tr>
-                        <th>{{empresaReference.terminal.noSerie}}</th>
-                        <th class="center">{{empresaReference.terminal.situacao}}</th>
+                        <td>{{empresaReference.terminal.codTerminal}}</td>
+                        <td class="center">{{empresaReference.terminal.situacao}}</td>
                         <td><a href="{{path("showByUser", {"id" : empresaReference.codTerminalEmpresa})}}" class="btn action"><i class="icon-edit"></i>Gerenciar</a></td>
                     </tr>
               {% endfor %}
@@ -46,7 +48,7 @@
         
          <div class="wrapper-widget">
                 <div class="row-fluid">
-                    <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Sidebar-2<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetContent2"></i></span></div>
+                    <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Sidebar-2<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetContent2"></i></span></div>
                 </div>
                 <div id="widgetContent2" class="content-widget collapse in">
                     <div class="accordion" id="accordion" >

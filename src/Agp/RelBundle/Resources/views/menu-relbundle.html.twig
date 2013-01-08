@@ -1,0 +1,8 @@
+<ul class="nav nav-list side-menu menu-sidebar">
+    <li><a href="{{path("vendaGeralRelatorio")}}"><i class="icon-th-list"> </i><span class="break"></span>Vendas</a></li>
+    <li><a href="{{path("produtolHabilitadoRelatorio")}}"><i class="icon-th-list"> </i><span class="break"></span>Produtos habilitados</a></li>
+    <li><a href="{{path("aquisicaoRelatorio")}}"><i class="icon-th-list"> </i><span class="break"></span>Aquisições</a></li>
+</ul>
+{% if is_granted('ROLE_ADMIN') %}
+
+{% endif %}

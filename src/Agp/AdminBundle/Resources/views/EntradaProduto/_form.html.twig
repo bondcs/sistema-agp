@@ -1,0 +1,22 @@
+{{form_errors(form)}}
+
+<div class="control-group">
+    <div class="control-erro">
+       {{ form_errors(form.fornecedor) }} 
+    </div>    
+    {{ form_label(form.fornecedor) }}
+        <div class="controls control-add-rapido">
+        {{ form_widget(form.fornecedor) }}
+        <a href="#" class="btn btn-primary add-rapido" title="Adicionar Fornecedor" data-rota="fornecedorAddFast">+</a>    
+    </div>
+</div>
+{{ form_row(form.qtde)}}
+{{ form_row(form.vlrCusto)}}
+
+
+{{ form_row(form._token) }}
+<div class="center">
+    <button type="submit" class="btn pull-left"><i class="icon-ok"></i>Enviar</button>
+    <a href="#" class="btn pull-right close-dialog"><i class="icon-off"></i>Fechar</a>
+</div>
+

@@ -85,6 +85,7 @@ class ProdutoListaHandler {
     {
         if (!$this->form){
             $produtoListaType = $this->container->get("agp.produtoLista.form.type");
+            $this->setOptions(array("estrategia" => $this->estrategia));
             $produtoListaType->setOptions($this->options);
             
             if($this->estrategia == self::INSERT){
@@ -101,6 +102,14 @@ class ProdutoListaHandler {
         }
         
         return $this->form;
+    }
+    
+    public function getFormView()
+    {
+        $produtoListaType = $this->container->get("agp.produtoLista.form.type");
+        $produtoListaType->setOptions($this->options);
+        $form = $this->factory->create($produtoListaType);
+        return $form->createView();
     }
 }
 

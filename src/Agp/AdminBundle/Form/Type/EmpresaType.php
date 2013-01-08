@@ -27,43 +27,43 @@ class EmpresaType extends AbstractType
     {
         $builder
             ->add('razaoSocial', 'text', array(
-                  'label' => "Razão social",  
+                  'label' => "Razão social:",  
                   'attr' => array('placeholder' => 'Razão social')
             ))
             ->add('fantasia', 'text', array(
-                  'label' => "Fantasia",  
+                  'label' => "Fantasia: (opcional)",  
                   'attr' => array('placeholder' => 'Fantasia')
             ))
             ->add('cnpj', 'text', array(
-                  'label' => "Cnpj",  
+                  'label' => "Cnpj:",  
                   'attr' => array('placeholder' => 'Cnpj', 'class' => 'cnpj')
             ))
             ->add('ie', 'text', array(
-                  'label' => "Ie",  
+                  'label' => "Ie: (opcional)",  
                   'attr' => array('placeholder' => 'Ie', 'class' => 'ie')
             ))
             ->add('im', 'text', array(
-                  'label' => "Im",  
+                  'label' => "Im: (opcional)",  
                   'attr' => array('placeholder' => 'Im', 'class' => 'im')
             ))
             ->add('endereco', 'text', array(
-                  'label' => "Endereço",  
+                  'label' => "Endereço:",  
                   'attr' => array('placeholder' => 'Endereço')
             ))
             ->add('complemento', 'text', array(
-                  'label' => "Complemento",  
+                  'label' => "Complemento: (opcional)",  
                   'attr' => array('placeholder' => 'Complemento')
             ))
             ->add('cep', 'text', array(
-                  'label' => "Cep",  
+                  'label' => "Cep:",  
                   'attr' => array('placeholder' => 'Cep', 'class' => 'cep')
             ))
             ->add('bairro', 'text', array(
-                  'label' => "Bairro",  
+                  'label' => "Bairro:",  
                   'attr' => array('placeholder' => 'Bairro')
             ))
             ->add('cidade', 'entity', array(
-                  'label' => "Cidade", 
+                  'label' => "Cidade:", 
                   'class' => 'AgpAdminBundle:Cidade',
                   'property' => 'nome',
             ))

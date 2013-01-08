@@ -35,7 +35,7 @@ class FilterVendasGeralType extends AbstractType{
                 'attr' => array("class" => "terminal"),
                 'required' => false,
                 'empty_value' => "Todos",
-                'label' => 'Terminal',
+                'label' => 'Terminal:',
                 'choices' => $terminal['options'],
             ))
             ->add('grupo', 'choice', array(
@@ -52,7 +52,7 @@ class FilterVendasGeralType extends AbstractType{
                 'attr' => array("class" => "fechamento"),
                 'required' => false,
                 'empty_value' => "Todos",
-                'label' => 'Fechamento',
+                'label' => 'Fechamento:',
                 'choices' => $fechamento['options'],
                 'data' => $fechamento['max']
             ))

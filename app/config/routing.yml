@@ -1,3 +1,8 @@
+agp_rel:
+    resource: "@AgpRelBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 agp_admin:
     resource: "@AgpAdminBundle/Controller/"
     type:     annotation

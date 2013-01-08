@@ -4,6 +4,7 @@ namespace Agp\AdminBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Agp\AdminBundle\Entity\TerminalEmpresa;
+use Agp\AdminBundle\Entity\HabilitaProdutoTerminal;
 
 /**
  * TerminalEmpresaRepository
@@ -33,5 +34,34 @@ class HabilitaProdutoTerminalRepository extends EntityRepository
                 ->setParameters(array("terminalEmpresa" => $terminalEmpresa))
                 ->getQuery()
                 ->getArrayResult();
+    }
+    
+    public function getProdutosHabilitados($terminal, $lista, $pessoa){
+        
+        $qb = $this->createQueryBuilder("hpt")
+            ->select("p.nome produto, t.codTerminal terminal, l.nome lista", "plp.vlrProduto")
+            ->join("hpt.produtoListaPreco", "plp")
+            ->join("plp.produto", "p")
+            ->join("plp.listaPreco", "l")
+            ->join("hpt.terminalEmpresa", "te")
+            ->join("te.terminal", 't')
+            ->where("te.empresa = :empresa")
+            ->andWhere("hpt.situacao = :ativo")
+            ->setParameters(array("empresa" => $pessoa->getEmpresa(),
+                                  "ativo" => HabilitaProdutoTerminal::SIT_ATIVO));
+        
+        if ($terminal != 0){
+            $qb->andwhere("te.codTerminalEmpresa = :terminal")
+               ->setParameter("terminal", $terminal);
+        }
+        
+        if ($lista != 0){
+            $qb->andwhere("l.codListaPreco = :lista")
+               ->setParameter("lista", $lista);
+        }
+
+        $vendas['aaData'] = $qb->getQuery()->getArrayResult();  
+     
+        return $vendas;
     }
 }

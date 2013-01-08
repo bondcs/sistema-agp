@@ -2,7 +2,7 @@
 {% block content %}
  <div class="wrapper-widget" style="min-width: 520px;">
     <div class="row-fluid">
-        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Atendentes<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Atendentes<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetDefault"></i></span></div>
     </div>
     <div id="widgetDefault" class="content-widget collapse in">
      <form id="formTable" action="" method="POST">
@@ -14,9 +14,9 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th class="head0"></th>
+                    <th class="head0" style="width: 50px;"><input class="checkAll" type="checkbox"></th>
                     <th class="head0">Nome</th>
-                    <th class="head0" style="width: 200px;">Ações</th>
+                    <th class="head0" style="width: 100px;"></th>
                 </tr>
             </thead>
             <tbody>
@@ -39,15 +39,23 @@ $(document).ready(function()
                 { "mDataProp": "codAtendente",
                     "sClass" : "center"},
                 { "mDataProp": "nome" },
-                { "mDataProp": "codAtendente",
-                    "sClass" : "center"}, 
+                { "mDataProp": "codAtendente"}, 
               ],
               "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
                                {"bSortable": false, "aTargets": [2]}],
               "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
                  $('td:eq(0)', nRow).html('<input class="check-table" type="checkbox" name="atendentes[]" value="'+aData['codAtendente']+'">'); 
                  $('td:eq(2)', nRow).html(
-                    "<a class='btn action action-edit' href="+Routing.generate("atendenteEdit", {"id" : aData['codAtendente']})+" title='Editar Atendente'><i class='icon-file'></i>Editar</a><a class='btn action action-confirm' data-href='"+Routing.generate("atendenteDelete", {"id" : aData['codAtendente']})+"' data-texto='Deletar este atendente: "+aData['nome']+"' title='Deletar Atendente' ><i class='icon-trash'></i>Deletar</a>"
+                    '<div class="btn-group">'+
+                       '<a class="btn dropdown-toggle" data-toggle="dropdown">'+
+                       'Acões'+
+                       '<span class="caret"></span>'+
+                       '</a>'+
+                       '<ul class="dropdown-menu">'+
+                            "<li><a class='action action-edit' href="+Routing.generate("atendenteEdit", {"id" : aData['codAtendente']})+" title='Editar Atendente'><i class='icon-file'></i>Editar</a></li>"+
+                            "<li><a class='action action-confirm' data-href='"+Routing.generate("atendenteDelete", {"id" : aData['codAtendente']})+"' data-texto='Deletar este atendente: "+aData['nome']+"' title='Deletar Atendente' ><i class='icon-trash'></i>Deletar</a></li>"+
+                       '</ul>'+
+                   '</div>'
                  );
               },
              

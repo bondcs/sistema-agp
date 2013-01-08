@@ -18,7 +18,7 @@ use Agp\AdminBundle\Form\Dummy\EmpresaDummyType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Description of ListaController
+ * Description of EmpresaController
  *
  * @author bondcs
  * @Route("/admin/empresa")

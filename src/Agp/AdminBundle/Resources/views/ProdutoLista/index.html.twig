@@ -10,7 +10,7 @@
     {% endblock %}
 <div class="wrapper-widget" style="min-width: 450px;">
     <div class="row-fluid">
-        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista : {{entity.nome}}<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista : {{entity.nome}}<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetDefault"></i></span></div>
     </div>
     <div id="widgetDefault" class="content-widget collapse in">
          <form id="formTable" action="" method="POST">
@@ -24,11 +24,11 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th class="head0" style="width: 50px;"></th>
+                        <th class="head0" style="width: 50px;"><input class="checkAll" type="checkbox"></th>
                         <th class="head1">Nome</th>
                         <th class="head0">Valor</th>
                         <th class="head1">Limite de Vendas</th>
-                        <th class="head0" style="width: 300px;">Ações</th>
+                        <th class="head0" style="width: 100px;"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,17 +56,24 @@ $(document).ready(function()
                 { "mDataProp": "vlrProduto",
                   "sClass" : "valor"},
                 { "mDataProp": "limiteVendas" },
-                { "mDataProp": "codProdutoListaPreco",
-                    "sClass" : "center"}, 
+                { "mDataProp": "codProdutoListaPreco"}, 
               ],
               "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
                                {"bSortable": false, "aTargets": [4]}],
               "fnRowCallback": function ( nRow, aData, iStart, iEnd, aiDisplay ) {
                  $('td:eq(0)', nRow).html('<input class="check-table" type="checkbox" name="registros[]" value="'+aData['codProdutoListaPreco']+'">'); 
-                  $(nRow).children(".valor").html(formataDinheiroTabela(aData['vlrProduto']+""));
+                 $(nRow).children(".valor").html(formataDinheiroTabela(aData['vlrProduto']+""));
                  $('td:eq(4)', nRow).html(
-                    "<a class='btn action action-edit' href="+Routing.generate("produtoListaEdit", {"id" : aData['codProdutoListaPreco'], "listaId" : {{entity.codListaPreco}}})+" title='Editar Lista'><i class='icon-file'></i>Editar</a>"+
-                    "<a class='btn action action-confirm' data-href='"+Routing.generate("produtoListaDelete", {"id" : aData['codProdutoListaPreco']})+"' data-texto='Deletar esta lista: "+aData['produto']['nome']+"' title='Deletar Lista' ><i class='icon-trash'></i>Deletar</a>"
+                    '<div class="btn-group">'+
+                       '<a class="btn dropdown-toggle" data-toggle="dropdown">'+
+                       'Acões'+
+                       '<span class="caret"></span>'+
+                       '</a>'+
+                       '<ul class="dropdown-menu">'+
+                        "<li><a class='action action-edit' href="+Routing.generate("produtoListaEdit", {"id" : aData['codProdutoListaPreco'], "listaId" : {{entity.codListaPreco}}})+" title='Editar Lista'><i class='icon-file'></i>Editar</a></li>"+
+                        "<li><a class='action action-confirm' data-href='"+Routing.generate("produtoListaDelete", {"id" : aData['codProdutoListaPreco']})+"' data-texto='Deletar esta lista: "+aData['produto']['nome']+"' title='Deletar Lista' ><i class='icon-trash'></i>Deletar</a></li>"+
+                       '</ul>'+
+                   '</div>'
                  );
               },
              
@@ -84,13 +91,13 @@ $(document).ready(function()
                     ajaxLoadDialog(Routing.generate("produtoListaAdd", {"listaId" : {{entity.codListaPreco}}}) , "Adicionar produto à lista")
                 },
             },
-            {
+            /*{
                 "sExtends": "text",
                 "sButtonText": 'Adicionar ++',
                 "fnClick" : function(){
                     window.location.replace(Routing.generate("produtoListaGroupAdd", {"listaId" : {{entity.codListaPreco}}}));
                 },
-            },
+            },*/
             {
                 "sExtends": "text",
                 "sButtonText": 'Editar',
@@ -114,8 +121,27 @@ $(document).ready(function()
     };
 
     initDataTableTools(tTable, dtNewProps, dtToolsProps);
- 
+     
+    {#$(function(){
+        $(document).on('change', '.produto', function(e){
+            $.ajax({
+                type: 'POST',
+                url: Routing.generate("getProduto", {"id" : $(this).val()}),
+                success: function(result){
+                     $('.valor').attr('value', result);
+                }
+            })
+        })
+    })#}
+    
+    
 });
   
 </script>
+{% endblock %}
+
+{% block dialog %}
+    <div id="dialog-fast" title="Basic dialog">
+         <p></p>
+    </div>
 {% endblock %}

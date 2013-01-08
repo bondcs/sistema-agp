@@ -45,13 +45,55 @@ class ProdutoController extends Controller{
     public function addAction()
     {
       $form = $this->get("agp.produto.form");
+      $formView = $form->createView();
       $formHandler = $this->get("agp.produto.form.handler");
+      
       if ($formHandler->process()){
-          return new JsonResponse(array("status" => "sucesso"));
+          return new JsonResponse(array("status" => "sucesso", "form" => $this->renderView("AgpAdminBundle:Produto:add.html.twig", array('form' => $formView))));
       }
         
       return array('form' => $form->createView());  
     }
+    
+    /**
+     * @Route("/add-fast", name="produtoAddFast", options={"expose" = true})
+     * @Template("")
+     */
+    public function addFastAction()
+    {
+      $form = $this->get("agp.produto.form");
+      $formView = $form->createView();
+      $formHandler = $this->get("agp.produto.form.handler");
+      
+      if ($formHandler->process()){
+          return new JsonResponse(array("status" => "sucesso", "form" => $this->renderView("AgpAdminBundle:Produto:addFast.html.twig", array('form' => $formView))));
+      }
+        
+      return array('form' => $form->createView());  
+    }
+    
+    /**
+     * @Route("/get-produto/{id}", name="getProduto", options={"expose" = true})
+     * @Template("")
+     */
+    public function getProdutoAction($id)
+    {
+      $produto = $this->get("agp.produto.manager")->findById($id);
+      return new JsonResponse($produto->getVlrBase());
+    }
+    
+    /**
+     * @Route("/produto-select-ajax", name="getSelectProdutosAjax", options={"expose" = true})
+     * @Template()
+     * @Method({"post"})
+     */
+    public function produtoSelectAjaxAction()
+    {
+        $entities = $this->getDoctrine()->getEntityManager()->createQuery("SELECT p.codProduto as id, p.nome as nome FROM AgpAdminBundle:Produto p WHERE p.empresa = :empresa")->setParameters(array("empresa" => $this->getUser()->getEmpresa()))->getResult();
+        return new JsonResponse($entities);
+    }
+    
+    
     
     /**
      * @Route("/add-group", name="produtoGroupAdd", options={"expose" = true})
@@ -212,10 +254,29 @@ class ProdutoController extends Controller{
         return new JsonResponse($entities);
     }
     
+    /**
+     * @Route("/show/{id}", name="produtoShow", options={"expose" = true})
+     * @Template("")
+     */
+    public function showAction($id)
+    {
+        $produto = $this->get("agp.produto.manager")->findById($id);     
+        if (!$produto)
+                throw $this->createNotFoundException("A produto com id ".$id." não foi encontrado.");
+        
+        if (!$this->isValidAccess($produto)){
+            throw new AccessDeniedException;
+        }
+        
+        return (array("entity" => $produto));
+    }
+    
     public function setFlash($tipo, $msg){
         $session = $this->get("session");
         $session->setFlash($tipo, $msg);
     }
+    
+    
 }
 
 ?>

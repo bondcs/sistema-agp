@@ -89,7 +89,7 @@ class Terminal
      */
     public function getCodTerminal()
     {
-        return $this->codTerminal;
+        return str_pad($this->codTerminal, 4, "0", STR_PAD_LEFT);
     }
 
     /**

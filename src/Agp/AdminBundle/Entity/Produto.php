@@ -12,6 +12,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="produto")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity("nome")
  */
 class Produto
 {
@@ -75,6 +77,27 @@ class Produto
     
     public function __toString() {
         return $this->nome;
+    }
+    
+    public function atualizaQtde($qted){
+        $this->qtdeAtual += $qted;
+    }
+    
+    public function retirarQtde($qtde){
+        $this->qtdeAtual -= $qtde;
+    }
+    
+    /**
+     * @ORM\PrePersist @ORM\PreUpdate
+     */
+    public function setZero(){
+        if ($this->qtdeAtual == null){
+            $this->setQtdeAtual(0);
+        }
+        
+        if ($this->qtdeMinimo == null){
+            $this->setQtdeMinimo(0);
+        }
     }
 
     /**

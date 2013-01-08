@@ -2,7 +2,7 @@
 {% block content %}
 <div class="wrapper-widget" style="min-width: 520px;">
     <div class="row-fluid">
-        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Eventos<i class="icon-chevron-down pull-right" data-toggle="collapse" data-target="#widgetDefault"></i></span></div>
+        <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Lista de Eventos<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetDefault"></i></span></div>
     </div>
     <div id="widgetDefault" class="content-widget collapse in">
      <form id="formTable" action="" method="POST">
@@ -16,11 +16,11 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th class="head0"></th>
+                    <th class="head0"><input class="checkAll" type="checkbox"></th>
                     <th class="head0">Nome</th>
                     <th class="head0">Início</th>
                     <th class="head0">Término</th>
-                    <th class="head0" style="width: 200px;">Ações</th>
+                    <th class="head0" style="width: 100px;"></th>
                 </tr>
             </thead>
             <tbody>
@@ -46,8 +46,7 @@ $(document).ready(function()
                 { "mDataProp": "nome" },
                 { "mDataProp": "dtInicio.date" },
                 { "mDataProp": "dtTermino.date" },
-                { "mDataProp": "codEvento",
-                    "sClass" : "center"}, 
+                { "mDataProp": "codEvento"}, 
               ],
               "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
                                {"bSortable": false, "aTargets": [4]}],
@@ -56,7 +55,16 @@ $(document).ready(function()
                  $('td:eq(2)', nRow).html(formataDate(aData["dtInicio"]["date"])); 
                  $('td:eq(3)', nRow).html(formataDate(aData["dtTermino"]["date"])); 
                  $('td:eq(4)', nRow).html(
-                    "<a class='btn action action-edit' href="+Routing.generate("eventoEdit", {"id" : aData['codEvento']})+" title='Editar Evento'><i class='icon-file'></i>Editar</a><a class='btn action action-confirm' data-href='"+Routing.generate("eventoDelete", {"id" : aData['codEvento']})+"' data-texto='Deletar este evento: "+aData['nome']+"' title='Deletar Evento' ><i class='icon-trash'></i>Deletar</a>"
+                    '<div class="btn-group">'+
+                       '<a class="btn dropdown-toggle" data-toggle="dropdown">'+
+                       'Acões'+
+                       '<span class="caret"></span>'+
+                       '</a>'+
+                       '<ul class="dropdown-menu">'+
+                            "<li><a class='action action-edit' href="+Routing.generate("eventoEdit", {"id" : aData['codEvento']})+" title='Editar Evento'><i class='icon-file'></i>Editar</a></li>"+
+                            "<li><a class='action action-confirm' data-href='"+Routing.generate("eventoDelete", {"id" : aData['codEvento']})+"' data-texto='Deletar este evento: "+aData['nome']+"' title='Deletar Evento' ><i class='icon-trash'></i>Deletar</a></li>"+
+                       '</ul>'+
+                   '</div>'
                  );
               },
              

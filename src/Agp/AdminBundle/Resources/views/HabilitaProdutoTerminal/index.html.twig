@@ -23,13 +23,13 @@
        </colgroup>
        <thead>
            <tr>
-               <th class="head1"></th>
+               <th class="head1"><input class="checkAll" type="checkbox"></th>
                <th class="head0">Situação</th>
                <th class="head1">Produto</th>
                <th class="head1">Valor</th>
                <th class="head0">Limite de Venda</th>
                <th class="head1">Quantidade Atual</th>
-               <th class="head0 center" style="width: 300px;">Ações</th>
+               <th class="head0 center" style="width: 100px;">Ações</th>
            </tr>
        </thead>
        <tbody>
@@ -58,8 +58,7 @@ $(document).ready(function()
                     "sClass" : "center"},
                 { "mDataProp": "produtoListaPreco.produto.qtdeAtual",
                     "sClass" : "center"},
-                { "mDataProp": "codHabilitaProdutoTerminal",
-                    "sClass" : "center"}, 
+                { "mDataProp": "codHabilitaProdutoTerminal"}, 
               ],
               "aoColumnDefs": [{"bSortable": false, "aTargets": [0]},
                                {"bSortable": false, "aTargets": [1]},

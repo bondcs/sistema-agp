@@ -61,7 +61,7 @@ class ProdutoListaController extends Controller{
       $formHandler->setOptions(array("lista" => $listaId));
       
       if ($formHandler->process()){
-          return new JsonResponse(array("status" => "sucesso"));
+          return new JsonResponse(array("status" => "sucesso", "form" => $this->renderView("AgpAdminBundle:ProdutoLista:add.html.twig", array('form' => $formHandler->getFormView(), 'listaId' => $listaId))));
       }
         
       return array('form' => $formHandler->getForm()->createView(),

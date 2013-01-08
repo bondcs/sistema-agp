@@ -22,7 +22,7 @@ class AppKernel extends Kernel
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Agp\FrontBundle\AgpFrontBundle(),
             new Agp\AdminBundle\AgpAdminBundle(),
-            
+            new Agp\RelBundle\AgpRelBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

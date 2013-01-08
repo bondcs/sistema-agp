@@ -18,7 +18,7 @@ use Agp\AdminBundle\Form\Dummy\TerminalDummyType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Description of ListaController
+ * Description of TerminalController
  *
  * @author bondcs
  */

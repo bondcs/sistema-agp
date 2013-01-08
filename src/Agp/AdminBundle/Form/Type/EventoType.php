@@ -12,12 +12,12 @@ class EventoType extends AbstractType
     {
         $builder
             ->add('nome', 'text', array(
-                  'label' => "Nome",
+                  'label' => "Nome:",
                   'attr' => array('placeholder' => 'Nome')
             ))
             ->add('dtInicio', 'date', array(
                         'attr' => array("class" => "datepicker"),
-                        'label' => 'Início',
+                        'label' => 'Início:',
                         'input' => 'datetime',
                         'widget' => 'single_text',
                         'required' => true,
@@ -25,7 +25,7 @@ class EventoType extends AbstractType
              ))
             ->add('dtTermino', 'date', array(
                         'attr' => array("class" => "datepicker"),
-                        'label' => 'Término',
+                        'label' => 'Término:',
                         'input' => 'datetime',
                         'widget' => 'single_text',
                         'required' => true,

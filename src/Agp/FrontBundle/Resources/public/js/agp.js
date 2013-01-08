@@ -1,4 +1,4 @@
-$(document).ready(function() {
+ $(document).ready(function() {
     $(document).ajaxError(function (event, jqXHR) {
     if (403 === jqXHR.status) {
         window.location.reload();
@@ -10,12 +10,15 @@ $(document).ready(function() {
 function initDataTable(table, dtProps)
 {     
     var dtDefaults = {
+        "aaSorting": [ ],
+        "iDisplayLength": 100,
+        "aLengthMenu": [[100, 250, 500], [100, 250, 500]],
         "bInfo": true,
         "bLengthChange": true,
         "bRetrieve": false,
         "bDestroy": true,
         "bDeferRender": true,
-        "sDom": "<'row-fluid'<'span2 length'l><'span3 tools-p'T><'span3 pull-right find'f>r>t<'row-fluid'<'span6 info'i><'span6 pull-right page'p>>",
+        "sDom": "<'row-fluid'<'span1 length'l><'span3 tools-p'T><'span3 pull-right find'f>r>t<'row-fluid'<'span6 info'i><'span6 pull-right page'p>>",
         "oTableTools":{ 
             "sSwfPath": path+"/agpfront/js/copy_csv_xls_pdf.swf",
             "aButtons": [
@@ -45,6 +48,7 @@ function initDataTableTools(table, dtProps, toolsProps)
    var settingsTools = $.extend(toolsDefaults, toolsProps);
     
    var dtDefaults = {
+        "aaSorting": [ ],
         "bInfo": false,
         "bLengthChange": true,
         "bDestroy": true,
@@ -65,6 +69,8 @@ $(document).ajaxStart(function(){
 
 });
 
+
+
 $(document).ready(function ()
 {  
     /* dataTable Plugin definição */
@@ -74,17 +80,17 @@ $(document).ready(function ()
     tTable = initDataTableTools('table.toolstable', null);
     
     /*Flecha para cima, para baixo*/
-    $(".icon-chevron-down").on("click", function(e)
-    {
-        if ($(this).hasClass("icon-chevron-up")){
-              $(this).removeClass("icon-chevron-up");
-              $(this).addClass("icon-chevron-down")
-        } else {
-              $(this).removeClass("icon-chevron-down");
-              $(this).addClass("icon-chevron-up")
-        }
-        e.preventDefault()
-    })
+//    $(".icon-chevron-down").on("click", function(e)
+//    {
+//        if ($(this).hasClass("icon-chevron-up")){
+//              $(this).removeClass("icon-chevron-up");
+//              $(this).addClass("icon-chevron-down")
+//        } else {
+//              $(this).removeClass("icon-chevron-down");
+//              $(this).addClass("icon-chevron-up")
+//        }
+//        e.preventDefault()
+//    })
     
     $(".alert").delay(4000).slideUp("slow");
     
@@ -133,45 +139,64 @@ $(document).ready(function ()
      $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
      $('.datepicker').datepicker();
      
+    var btn = $('button[type="submit"]')
+    btn.attr("disabled", "disabled")
+    $(document).ajaxStart(function(){
+      btn.attr("disabled", "disabled")
+    }).ajaxStop(function(){
+      
+      setTimeout(function(){btn.removeAttr("disabled")}, 5000);
+    }); 
      
      
 });
 
-function onReady(){
-     /* Form Handlers*/
+function onReady()
+{ 
     var btn = $('button[type="submit"]')
+    btn.attr("disabled", "disabled")
     $(document).ajaxStart(function(){
       btn.attr("disabled", "disabled")
-      btn.html("Enviando")
     }).ajaxStop(function(){
-      setTimeout(function(){btn.removeAttr("disabled")}, 300);
-      btn.html("<i class='icon-ok'></i>Enviar")
+      
+      setTimeout(function(){btn.removeAttr("disabled")}, 500);
     }); 
+
+/* Form Handlers*/
+    
      
-    $(function() {
-        $("#ajax-form").submit(function(e){
-            e.preventDefault();
-                var url = $('#ajax-form').attr("action");
-                $.ajax({
-                    timeout: 5000,
-                    type: 'POST',
-                    url: url,
-                    data: $('#ajax-form').serialize(),
-                    success: function(result){
-                        if (result['status'] == "sucesso"){
-                            $("#dialog").dialog( "close" );
-                            tTable.dataTable().fnReloadAjax();
-                            notify("regular", "Sucesso", "Acão foi efetuada!")
-                            return false;
-                        }
-                        $("#dialog").html(result);
-                        onReady();
-                    }
-                })
-                
-            return false;
-        })
-    })
+//    $(function() {
+//        $("#ajax-form").submit(function(e){
+//            e.preventDefault();
+//                var url = $('#ajax-form').attr("action");
+//                $.ajax({
+//                    type: 'POST',
+//                    url: url,
+//                    data: $('#ajax-form').serialize(),
+//                    success: function(result){
+//                        if (result["status"] == "sucesso"){
+//                            tTable.dataTable().fnReloadAjax();
+//                            $("#dialog").dialog( "close" ); 
+//                            notify("regular", "Sucesso", "Acão foi efetuada!")
+//                            
+//                            if (result["form"]){
+//                                $("#dialog").html(result['form']);
+//                                onReady()
+//                                $("#dialog").dialog( "open" ); 
+//                            }
+//                            
+//                            $(".checkAll").attr("checked", false);
+//                            return false;
+//                        }
+//                        
+//                        $("#dialog").html(result);
+//                        onReady()
+//                    }
+//                })
+//                
+//            return false;
+//        })
+//    })
     
     $(function(){
         $(".moeda").each(function(){
@@ -182,7 +207,7 @@ function onReady(){
     })
     
     $('.datepicker').datepicker();
-    $(".chzn-select").chosen();
+    $(".chzn-select").chosen({no_results_text: "Nenhum resultado"});
     showHide($(".vinculo"), "Permanente", $(".temporario"));
     
     $(".telefone").mask("(99) 9999-9999");
@@ -204,6 +229,7 @@ function formSubmitTableGroup(form, url){
                 tTable.dataTable().fnReloadAjax();
                 notify("regular", "Sucesso", "Acão foi efetuada!")
                 $(".check-button").addClass("hidden");
+                $(".checkAll").attr("checked", false);
                 return false;
             }
             $("#dialog").html(result);
@@ -249,7 +275,7 @@ function formSubmitTableEdit(form, url){
 
 
 
-
+/* checkbox das tabelas */
 $(document).on('click', '#formTable .check-table', function(e){
     // alterar a cor do fundo da linha
     $(this).closest("tr").toggleClass('row_selected');
@@ -276,6 +302,7 @@ function ajaxDeleteDialog(url){
                 $("#dialog-confirm").dialog( "close" );
                 tTable.dataTable().fnReloadAjax();
                 $(".check-button").addClass("hidden");
+                $(".checkAll").attr("checked", false);
                 return false;
             }
     })
@@ -303,7 +330,17 @@ $(function() {
         autoOpen: false,
         show: "fade",
         hide: "fade",
-        resizable: false,
+        resizable: false
+     });
+});
+
+$(function() {
+    $( "#dialog-fast" ).dialog({
+        autoOpen: false,
+        show: "fade",
+        hide: "fade",
+        resizable: false
+    });
 });
 
 /* Dialog de confirmação*/
@@ -342,11 +379,17 @@ $(function() {
  });
     
     /* Botão fechar*/
-    $(document).on('click', '.close-dialog', function(e){
-       e.preventDefault();
-       $("#dialog").dialog( "close" );
-    })  
-});
+$(document).on('click', '.close-dialog', function(e){
+   e.preventDefault();
+   $("#dialog").dialog( "close" );
+   $("#dialog-fast").dialog( "close" );
+})  
+    /* Botão fechar dialog-fast*/
+$(document).on('click', '.close-dialog-fast', function(e){
+   e.preventDefault();
+   $("#dialog-fast").dialog( "close" );
+})  
+
 
 
     /* Formata número */
@@ -479,3 +522,149 @@ function showHide(choice, value, elementShowHide){
     }
     
 }
+
+$(function(){
+
+    $('.checkAll').change( function() {
+        $('input', tTable.fnGetNodes()).attr('checked',this.checked);
+        
+        if(this.checked){
+           $(".check-button").removeClass("hidden"); 
+           $('input', tTable.fnGetNodes()).closest("tr").addClass('row_selected');
+        }else{
+           $(".check-button").addClass("hidden");
+           $('input', tTable.fnGetNodes()).closest("tr").removeClass('row_selected');
+        }
+        
+    } );
+     
+})
+
+function preencheZeros(param,tamanho)  
+{  
+   var contador = param.length;  
+
+   if (param.length != tamanho)  
+   {  
+      do  
+      {  
+         param = "0" + param;  
+         contador += 1;  
+
+      }while (contador < tamanho)  
+   }
+   
+   return param
+} 
+
+$(function(){
+    $(document).on('click', '.add-rapido', function(e){
+        ajaxLoadDialogFast(Routing.generate($(this).data("rota")) , ($(this).attr("title")));
+    })
+})
+
+function ajaxLoadDialogFast(url, title){
+    $.ajax({
+            type: 'GET',
+            url: url,
+            success: function(result){
+                $("#dialog-fast").html(result);
+                $("#dialog-fast").dialog( "option", "title", title || "" );
+                $("#dialog-fast").dialog('open');
+                $(".check-button").addClass("hidden");
+                onReady()
+                return false;
+            }
+    })   
+}
+
+$(function(){
+    $(document).on('submit', '#ajax-form', function(e){
+        e.preventDefault();
+        var url = $(this).attr("action");
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: $(this).serialize(),
+            success: function(result){
+                if (result["status"] == "sucesso"){
+                    tTable.dataTable().fnReloadAjax();
+                    $("#dialog").dialog( "close" ); 
+                    notify("regular", "Sucesso", "Acão foi efetuada!")
+
+                    if (result["form"]){
+                        $("#dialog").html(result['form']);
+                        onReady()
+                        $("#dialog").dialog( "open" ); 
+                    }
+
+                    $(".checkAll").attr("checked", false);
+                    return false;
+                }
+
+                $("#dialog").html(result);
+                onReady()
+            }
+        })
+                
+        return false;
+
+    })
+})
+
+$(function(){
+    $(document).on('click', "#submit-form-fast", function(e){
+        e.preventDefault();
+        var form = $("#ajax-form-fast");
+        var url = form.attr("action");
+        var rota = ($(this).data("rota"));
+        var select = $('.'+($(this).data("select")));
+        var dialog = $("#dialog-fast");
+        
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: form.serialize(),
+            success: function(result){
+                if (result["status"] == "sucesso"){
+                    dialog.dialog( "close" ); 
+                    notify("regular", "Sucesso", "Registro cadastrado!")
+                    if (result["form"]){
+                        dialog.html(result['form']);
+                        dialog.dialog( "open" ); 
+                    }
+                    
+                    atualizaSelect(rota, select)
+                    return false;
+
+                }
+                $("#dialog-fast").html(result);
+                onReady()
+            }
+        })
+        return false;
+    })
+    
+})
+
+function atualizaSelect(rota, select)
+{
+    $.ajax({
+        type: 'POST',
+        url: Routing.generate(rota),
+        success: function(result){
+            select.empty();
+            var options = '';
+            $.each(result, function(key, value){
+                options += '<option value="'+value['id']+'">'+value['nome']+'</option>';
+
+            })
+            select.html(options);
+            select.trigger("liszt:updated");
+        }
+    })
+
+}
+
+
+ 

@@ -1,0 +1,89 @@
+{% extends "AgpAdminBundle:Relatorio:base-relatorio.html.twig" %}
+{% block title %}Produtos Habilitados{% endblock %}
+
+{% block content %}
+<div class="wrapper-widget" style="min-width: 520px;">
+        <div class="row-fluid">
+            <div class="span12 well well-small header-grid"><span><i class="icon-th"></i><span class="break"></span>Relatório de produtos habilitados<i class="icon-chevron-down pull-right" data-toggle="none" data-target="#widgetDefault"></i></span></div>
+        </div>
+        <div id="widgetDefault" class="content-widget collapse in">
+            <form class="form-inline filter">
+             <div class="row-fluid">
+                <div class="span12">
+                {{form_label(formFilter.lista)}}
+                {{form_widget(formFilter.lista)}}
+                
+                {{form_label(formFilter.terminaisRelatorio)}}
+                {{form_widget(formFilter.terminaisRelatorio)}}
+                </div>      
+            </div>
+            </form>
+            <hr>
+            <table class="simpletable table table-striped">
+                <colgroup>
+                    <col class="con0" />
+                    <col class="con1" />
+                    <col class="con0" />
+                    <col class="con1" />
+                    <col class="con0" />
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th class="head0">Produto</th>
+                        <th class="head0">Terminal</th>
+                        <th class="head1">Lista</th>
+                        <th class="head0">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+   </div>
+
+{% endblock %}
+
+{% block javascript_diff %}
+<script type="text/javascript">
+    
+    function getRota(){
+        return Routing.generate("produtoHabilitadoRelatiorioAjax",
+                              {'terminal' : $(".terminais").val() ? $(".terminais").val() : 0,
+                               'lista' : $(".lista").val() ? $(".lista").val() : 0});
+    }
+    
+    $(document).ready(function()
+    {   
+        $("#atualizar").click(function(e){
+            e.preventDefault()
+            oTable.fnNewAjax(getRota());            
+            oTable.dataTable().fnReloadAjax();
+        })
+        
+        $(".filter select").change(function(){
+            oTable.fnNewAjax(getRota());            
+            oTable.dataTable().fnReloadAjax();
+        });  
+        
+        dtNewProps = {
+              "sServerMethod": "POST",
+              "sAjaxSource": getRota(),
+              "aoColumns": [
+                { "mDataProp": "produto" },
+                { "mDataProp": "terminal" },
+                { "mDataProp": "lista"},
+                { "mDataProp": "vlrProduto",
+                  "sClass" : "valor"}, 
+              ],
+              
+              "fnRowCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+                  $('td:eq(1)', nRow).html(preencheZeros(aaData['terminal']+"", 4)); 
+                  $(nRow).children(".valor").html(formataDinheiroTabela(aaData['vlrProduto']+""));
+              },
+
+        }
+        
+        initDataTable(oTable, dtNewProps);
+    });
+</script>
+{% endblock %}

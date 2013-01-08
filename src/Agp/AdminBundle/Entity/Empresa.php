@@ -28,6 +28,13 @@ class Empresa
      * @ORM\OneToMany(targetEntity="TerminalEmpresa", mappedBy="empresa", cascade={"all"})
      */
     protected $empresaReference;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="ListaPreco", mappedBy="empresa", cascade={"all"})
+     */
+    protected $listas;
+    
     /**
      * @var string $razaoSocial
      *
@@ -114,6 +121,7 @@ class Empresa
 
     public function __construct() {
         $this->empresaReference = new ArrayCollection();
+        $this->listas = new ArrayCollection();
     }
     
     public function getTerminais(){
@@ -417,5 +425,25 @@ class Empresa
     public function getEmpresaReference()
     {
         return $this->empresaReference;
+    }
+    
+    /**
+     * Add $lista
+     *
+     * @param Agp\AdminBundle\Entity\TerminalEmpresa $lista
+     */
+    public function addListas(\Agp\AdminBundle\Entity\ListaPreco $lista)
+    {
+        $this->listas[] = $lista;
+    }
+
+    /**
+     * Get lista
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getListas()
+    {
+        return $this->listas;
     }
 }

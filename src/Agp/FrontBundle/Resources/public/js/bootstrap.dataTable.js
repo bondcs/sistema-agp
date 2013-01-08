@@ -1,7 +1,9 @@
 /* Set the defaults for DataTables initialisation */
 $.extend( true, $.fn.dataTable.defaults, {
+        "iDisplayLength": 50,
         "bJQueryUI": false,
         "bAutoWidth":false,
+        "aaSorting": [ ],
 	"sDom": "<'row-fluid'<'span6'l><'span6'f>r>t<'row-fluid'<'span6'i><'span6'p>>",
 	"sPaginationType": "bootstrap",
 	"oLanguage": {
@@ -13,9 +15,8 @@ $.extend( true, $.fn.dataTable.defaults, {
             "sInfoEmpty":    "0 - 0 de 0 registros",
             "sInfoFiltered": "(filtrado de _MAX_ registros no total)",
             "sInfoPostFix":  "",
-            "sSearch":       "",
+            "sSearch":       "Busca:",
             "sUrl":          "",
-            "iDisplayLength": 25,
             "oPaginate": {
                 "sFirst": "Próximo",
                 "sLast": "Último",

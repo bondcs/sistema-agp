@@ -30,6 +30,21 @@ class HabilitaProdutoTerminalManager extends BaseManager{
 
     }
     
+    public function habilitaProdutoTerminalGrupo($lista, $terminais, $produtos)
+    {   
+        foreach ($terminais as $terminalEmpresa){
+            $this->repository->clearProdutosHabilitados($terminalEmpresa);
+            foreach ($produtos as $produto){
+                $produtoListaPreco = $this->container->get("agp.produtoLista.manager")->findById($produto);
+                $habilita = $this->create();
+                $habilita->setTerminalEmpresa($terminalEmpresa)
+                         ->setProdutoListaPreco($produtoListaPreco)
+                         ->setEvento($produtoListaPreco->getListaPreco()->getEvento());
+                $this->persist($habilita);
+            }
+        } 
+    }
+    
     public function changeSituacao($entity){
         
         if ($entity->isAtivo()){
